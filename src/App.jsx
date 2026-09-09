@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { CustomCursor } from './components/motion/CustomCursor';
+import { SmoothScroll } from './components/motion/SmoothScroll';
 
 // Pages
 import { HomePage } from './pages/HomePage';
@@ -11,8 +12,7 @@ import { OfferingsPage } from './pages/OfferingsPage';
 import { ExperiencePage } from './pages/ExperiencePage';
 import { LocationsPage } from './pages/LocationsPage';
 import { ExpansionPage } from './pages/ExpansionPage';
-import { PartnerPage } from './pages/PartnerPage';
-import { CareersPage } from './pages/CareersPage';
+import { PartnerCareersPage } from './pages/PartnerCareersPage';
 import { ContactPage } from './pages/ContactPage';
 
 function ScrollToTop() {
@@ -61,30 +61,32 @@ class ErrorBoundary extends React.Component {
 export default function App() {
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <CustomCursor />
-      <div className="min-h-screen bg-[#F7F4ED] text-[#202321] font-sans antialiased selection:bg-[#C86B4A] selection:text-white flex flex-col justify-between overflow-x-hidden">
-        <Navbar />
+      <SmoothScroll>
+        <CustomCursor />
+        <div className="min-h-screen bg-[#F7F4ED] text-[#202321] font-sans antialiased selection:bg-[#C86B4A] selection:text-white flex flex-col justify-between overflow-x-clip">
+          <Navbar />
 
-        <main className="flex-grow w-full">
-          <ErrorBoundary>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/offerings" element={<OfferingsPage />} />
-              <Route path="/experience" element={<ExperiencePage />} />
-              <Route path="/locations" element={<LocationsPage />} />
-              <Route path="/expansion" element={<ExpansionPage />} />
-              <Route path="/partner" element={<PartnerPage />} />
-              <Route path="/careers" element={<CareersPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="*" element={<HomePage />} />
-            </Routes>
-          </ErrorBoundary>
-        </main>
+          <main className="flex-grow w-full">
+            <ErrorBoundary>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/offerings" element={<OfferingsPage />} />
+                <Route path="/experience" element={<ExperiencePage />} />
+                <Route path="/locations" element={<LocationsPage />} />
+                <Route path="/expansion" element={<ExpansionPage />} />
+                <Route path="/partner" element={<PartnerCareersPage initialTab="partner" />} />
+                <Route path="/careers" element={<PartnerCareersPage initialTab="careers" />} />
+                <Route path="/join" element={<PartnerCareersPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="*" element={<HomePage />} />
+              </Routes>
+            </ErrorBoundary>
+          </main>
 
-        <Footer />
-      </div>
+          <Footer />
+        </div>
+      </SmoothScroll>
     </BrowserRouter>
   );
 }

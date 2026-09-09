@@ -215,7 +215,7 @@ export function HeroMotion() {
               ) : (
                 <>
                   <img
-                    src="/assets/images/store-approach.jpg"
+                    src="/assets/images/ghibli-store-front.jpg"
                     alt="Village Deli Modern Exterior"
                     className="w-full h-full object-cover"
                   />

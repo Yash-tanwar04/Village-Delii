@@ -1,4 +1,8 @@
 @import "tailwindcss";
+ 
+:root {
+  --navbar-height: 72px;
+}
 
 @theme {
   --color-ink: #172B3A;
@@ -149,3 +153,21 @@
 .animate-pulse-glow {
   animation: pulseGlow 4s ease-in-out infinite;
 }
+
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 0.18;
+    transform: scale(0.7);
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.35);
+    box-shadow: 0 0 6px 1.5px rgba(255, 255, 255, 0.95);
+  }
+}
+
+.animate-star-twinkle {
+  animation: starTwinkle var(--twinkle-dur, 2.2s) ease-in-out infinite var(--twinkle-delay, 0s);
+}
+

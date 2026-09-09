@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { MapPin, Menu, X, Clock } from 'lucide-react';
 
@@ -6,6 +6,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const headerRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,6 +15,32 @@ export function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const updateNavbarHeight = () => {
+      if (headerRef.current) {
+        const h = headerRef.current.getBoundingClientRect().height;
+        if (h > 0) {
+          document.documentElement.style.setProperty('--navbar-height', `${Math.round(h)}px`);
+        }
+      }
+    };
+
+    updateNavbarHeight();
+
+    let ro;
+    if (typeof ResizeObserver !== 'undefined' && headerRef.current) {
+      ro = new ResizeObserver(updateNavbarHeight);
+      ro.observe(headerRef.current);
+    }
+
+    window.addEventListener('resize', updateNavbarHeight);
+
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', updateNavbarHeight);
+    };
+  }, [scrolled]);
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -27,14 +54,14 @@ export function Navbar() {
     { label: "Experience", path: "/experience" },
     { label: "Locations", path: "/locations" },
     { label: "Expansion", path: "/expansion" },
-    { label: "Partner With Us", path: "/partner" },
-    { label: "Careers", path: "/careers" },
+    { label: "Partner & Careers", path: "/partner", matchPaths: ["/partner", "/careers", "/join"] },
     { label: "Contact", path: "/contact" },
   ];
 
   return (
     <>
       <header
+        ref={headerRef}
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
           scrolled
             ? 'py-3.5 bg-[#F7F4ED]/95 backdrop-blur-md shadow-sm border-b border-[#E5D8C5] text-[#172B3A]'
@@ -59,9 +86,11 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden xl:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-6">
             {navLinks.map((link) => {
-              const isActive = location.pathname === link.path;
+              const isActive = link.matchPaths
+                ? link.matchPaths.includes(location.pathname)
+                : location.pathname === link.path;
               return (
                 <Link
                   key={link.path}
@@ -94,7 +123,7 @@ export function Navbar() {
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden p-2 rounded-lg text-[#172B3A] hover:bg-[#E5D8C5]/30 transition-colors cursor-pointer"
+              className="lg:hidden p-2 rounded-lg text-[#172B3A] hover:bg-[#E5D8C5]/30 transition-colors cursor-pointer"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -106,10 +135,12 @@ export function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#F7F4ED]/98 backdrop-blur-2xl flex flex-col pt-24 pb-8 px-6 xl:hidden animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-40 bg-[#F7F4ED]/98 backdrop-blur-2xl flex flex-col pt-24 pb-8 px-6 lg:hidden animate-in fade-in duration-200">
           <div className="flex-1 flex flex-col justify-center space-y-2.5 max-w-sm mx-auto w-full text-left">
             {navLinks.map((link, idx) => {
-              const isActive = location.pathname === link.path;
+              const isActive = link.matchPaths
+                ? link.matchPaths.includes(location.pathname)
+                : location.pathname === link.path;
               return (
                 <Link
                   key={link.path}

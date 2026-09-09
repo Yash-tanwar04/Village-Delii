@@ -15,7 +15,7 @@ const BG_STOPS = [
   [0.62, [143, 115, 121]], // #8F7379: Dusk twilight rose-slate
   [0.74, [59, 72, 90]],    // #3B485A: Blue hour as sun dips and moon rises
   [0.88, [23, 43, 58]],    // #172B3A: Village Deli signature Ink Blue
-  [1.00, [13, 25, 36]],    // #0D1924: Velvety deep midnight blue
+  [1.00, [23, 43, 58]],    // #172B3A: Blends seamlessly with FinalBrandStatement & Footer
 ];
 
 const TEXT_STOPS = [
@@ -54,6 +54,54 @@ export function getDiurnalTextColor(p) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
+// Curated constellation strictly confined to the upper header sky area
+const TOP_NIGHT_STARS = [
+  // Original reference dots visible in user screenshot:
+  { t: 33, l: 72, s: 2.5, dur: 2.1, delay: 0.1 },
+  { t: 74, l: 90, s: 3.0, dur: 2.5, delay: 0.6 },
+
+  // Surrounding the top-right header area & time pill:
+  { t: 18, l: 65, s: 1.5, dur: 1.8, delay: 0.3 },
+  { t: 45, l: 68, s: 2.0, dur: 2.6, delay: 1.2 },
+  { t: 22, l: 78, s: 1.5, dur: 2.2, delay: 0.8 },
+  { t: 55, l: 82, s: 2.0, dur: 3.0, delay: 0.4 },
+  { t: 15, l: 85, s: 2.5, dur: 1.9, delay: 1.5 },
+  { t: 38, l: 93, s: 1.5, dur: 2.5, delay: 0.9 },
+  { t: 62, l: 95, s: 2.0, dur: 2.8, delay: 0.2 },
+  { t: 82, l: 78, s: 1.5, dur: 2.1, delay: 1.1 },
+  { t: 85, l: 86, s: 2.0, dur: 2.7, delay: 0.7 },
+
+  // Center sky expanse (between title and right tracker):
+  { t: 16, l: 48, s: 2.5, dur: 2.3, delay: 0.5 },
+  { t: 32, l: 52, s: 1.5, dur: 1.7, delay: 1.3 },
+  { t: 65, l: 50, s: 2.0, dur: 2.9, delay: 0.2 },
+  { t: 24, l: 58, s: 3.0, dur: 2.1, delay: 0.9 },
+  { t: 78, l: 56, s: 1.5, dur: 2.4, delay: 1.4 },
+  { t: 48, l: 61, s: 2.0, dur: 3.2, delay: 0.6 },
+  { t: 82, l: 64, s: 1.5, dur: 1.9, delay: 0.3 },
+
+  // Left header sky (surrounding "24/7. Day or Night"):
+  { t: 12, l: 4, s: 2.0, dur: 2.5, delay: 0.4 },
+  { t: 36, l: 7, s: 1.5, dur: 1.9, delay: 1.0 },
+  { t: 68, l: 5, s: 2.5, dur: 2.8, delay: 0.7 },
+  { t: 84, l: 11, s: 1.5, dur: 2.2, delay: 1.3 },
+  { t: 15, l: 16, s: 2.5, dur: 2.4, delay: 0.2 },
+  { t: 42, l: 20, s: 1.5, dur: 3.1, delay: 0.8 },
+  { t: 72, l: 18, s: 2.0, dur: 2.0, delay: 1.6 },
+  { t: 20, l: 28, s: 2.0, dur: 2.6, delay: 0.5 },
+  { t: 58, l: 30, s: 1.5, dur: 1.8, delay: 1.2 },
+  { t: 82, l: 26, s: 2.5, dur: 2.7, delay: 0.1 },
+  { t: 14, l: 38, s: 3.0, dur: 2.2, delay: 0.9 },
+  { t: 40, l: 42, s: 1.5, dur: 2.9, delay: 0.4 },
+  { t: 76, l: 39, s: 2.0, dur: 1.9, delay: 1.5 },
+
+  // Perimeter ambient stars:
+  { t: 8, l: 96, s: 1.5, dur: 2.3, delay: 1.0 },
+  { t: 88, l: 3, s: 2.0, dur: 2.5, delay: 0.8 },
+  { t: 26, l: 44, s: 1.5, dur: 2.0, delay: 1.7 },
+  { t: 58, l: 75, s: 2.5, dur: 2.4, delay: 0.5 },
+];
+
 export function TwentyFourSevenWindow() {
   const containerRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -64,11 +112,10 @@ export function TwentyFourSevenWindow() {
       id: 'dawn',
       time: '06:00 AM',
       period: 'DAWN AWAKENING',
-      audience: 'Early Risers & Morning Commuters',
-      headline: 'Starting Your Day: First Ovens & Stone Milling',
+      audience: 'Starting Your Day',
+      headline: 'Starting Your Day',
       message:
-        'Warm sourdough loaves fresh from live store ovens, stone-chakki MP Sharbati flour ground on demand for daily household needs, and steaming barista espresso as Haryana stirs.',
-      craft: 'Live Stone-Chakki Milling · Stone Deck Oven Crusts · Fresh Barista Espresso',
+        'Warm artisanal bakery, freshly ground flours, and fresh brewed coffee to begin your morning with calm and care.',
       skyGradient: 'from-[#222338] via-[#7E4334] to-[#D99557]',
       glowColor: '#D99557',
       icon: Sunrise,
@@ -76,12 +123,11 @@ export function TwentyFourSevenWindow() {
     {
       id: 'midday',
       time: '01:00 PM',
-      period: 'HIGH NOON RADIANCE',
-      audience: 'Midday Movement & Busy Families',
-      headline: 'Grabbing a Quick Meal: High-Speed Lunch & Natural Vitality',
+      period: 'MIDDAY MOVEMENT',
+      audience: 'Grabbing a Quick Meal',
+      headline: 'Grabbing a Quick Meal',
       message:
-        'Chef-prepared gourmet deli wraps, toasted panini sandwiches, and 100% cold-pressed Valencia orange and raw sugarcane juice crafted to keep highway travellers energized without the wait.',
-      craft: 'Raw Cold-Pressed Extraction · Chef-Crafted Wraps · Under 60s Checkout',
+        'Chef-prepared deli sandwiches, fresh salad wraps, and 100% cold-pressed juices crafted for quick refreshment on the go.',
       skyGradient: 'from-[#173852] via-[#2F6B8A] to-[#B87F58]',
       glowColor: '#F5B862',
       icon: Sun,
@@ -90,11 +136,10 @@ export function TwentyFourSevenWindow() {
       id: 'dusk',
       time: '07:30 PM',
       period: 'TWILIGHT SANCTUARY',
-      audience: 'Evening Commute & Heading Home',
-      headline: 'Picking Up Groceries: Farm-Inspected Dinner Essentials',
+      audience: 'Picking Up Groceries',
+      headline: 'Picking Up Groceries',
       message:
-        'Audited regional farm vegetables harvested within 24 hours, pure cold-chain dairy milk, unpolished pulses, and comforting dinner staples on your commute home.',
-      craft: 'Farm-Inspected Daily Harvest · Pure Dairy & Malai Paneer · Heirloom Pantry Staples',
+        'Farm-fresh produce, cold-chain dairy milk, unadulterated staples, and evening household essentials on your commute home.',
       skyGradient: 'from-[#1C1D30] via-[#5C3247] to-[#C86B4A]',
       glowColor: '#C86B4A',
       icon: Sunset,
@@ -102,33 +147,38 @@ export function TwentyFourSevenWindow() {
     {
       id: 'night',
       time: '02:30 AM',
-      period: 'THE UNBROKEN NIGHT WATCH',
-      audience: 'Night Owls, Highway Travelers & Late Shifts',
-      headline: 'Late-Night Stops: The Constant 24/7 Haven',
+      period: 'NIGHT HAVEN',
+      audience: 'Late-Night Stops',
+      headline: 'Late-Night Stops',
       message:
-        'When everything else across North India goes dark, our warm amber lights stay on. A safe, secure, well-lit sanctuary with hot refreshments, clean restrooms, and midnight provisions whenever you need us.',
-      craft: 'Always Open 24/7/365 · 100% Arabica Night Roast · Safe Highway Oasis',
+        'Always open, always ready. A warm, safe, well-lit haven offering hot refreshments and provisions whenever you need us.',
       skyGradient: 'from-[#080E14] via-[#0E1A24] to-[#172B3A]',
       glowColor: '#4A87A8',
       icon: Moon,
     },
   ];
 
-  // GSAP ScrollTrigger: Lock the site with pin: true and pinSpacing: true
-  // The screen stays completely stationary while the user scrolls through the 24 hours!
+  // GSAP ScrollTrigger: Pin below the navbar dynamically
+  // The screen stays completely stationary below the navbar while scrolling through the 24 hours
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const ctx = gsap.context(() => {
+      const getNavH = () => {
+        const rootH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--navbar-height'));
+        return !isNaN(rootH) && rootH > 0 ? rootH : 72;
+      };
+
       ScrollTrigger.create({
         trigger: container,
-        start: 'top top',
-        end: '+=1100', // Refined snappy scroll distance for 4 phases
+        start: () => `top ${getNavH()}px`,
+        end: '+=1000',
         pin: true,
         pinSpacing: true,
         scrub: 0.15,
         anticipatePin: 1,
+        invalidateOnRefresh: true,
         onUpdate: (self) => {
           const p = self.progress;
           setScrollProgress(p);
@@ -163,77 +213,66 @@ export function TwentyFourSevenWindow() {
   return (
     <section
       ref={containerRef}
-      style={{ backgroundColor: dynamicBg }}
-      className="relative w-full h-screen min-h-[640px] flex flex-col justify-between py-10 sm:py-12 px-6 overflow-hidden select-none"
+      id="twenty-four-seven-window"
+      style={{ 
+        backgroundColor: dynamicBg,
+        height: 'calc(100vh - var(--navbar-height, 72px))',
+      }}
+      className="relative w-full min-h-[580px] flex flex-col justify-between py-5 sm:py-6 px-6 sm:px-12 overflow-hidden select-none"
     >
-      {/* Background Twinkling Starlight Matrix - emerges as sun sets and moon rises */}
+      {/* ── NIGHT SKY TWINKLING STARS (Confined strictly to the top header region) ── */}
       <div
-        className="absolute inset-0 pointer-events-none transition-opacity duration-500 z-0"
-        style={{ opacity: Math.max(0, (scrollProgress - 0.45) * 2.2) }}
+        className="absolute top-0 left-0 right-0 h-44 sm:h-48 md:h-52 pointer-events-none transition-opacity duration-700 z-0 overflow-hidden"
+        style={{ opacity: Math.min(1, Math.max(0, (scrollProgress - 0.45) * 2.2)) }}
+        aria-hidden="true"
       >
-        {[
-          { t: 12, l: 14, s: 2 }, { t: 22, l: 36, s: 1.5 }, { t: 8, l: 72, s: 2.5 },
-          { t: 38, l: 80, s: 1.5 }, { t: 28, l: 58, s: 2 }, { t: 68, l: 16, s: 2 },
-          { t: 78, l: 86, s: 2 }, { t: 52, l: 42, s: 1 }, { t: 18, l: 90, s: 3 },
-          { t: 62, l: 68, s: 2 }, { t: 82, l: 28, s: 1.5 }, { t: 10, l: 46, s: 2.5 },
-        ].map((star, idx) => (
+        {TOP_NIGHT_STARS.map((star, idx) => (
           <div
             key={idx}
-            className="absolute rounded-full bg-white animate-pulse"
+            className="absolute rounded-full bg-white animate-star-twinkle"
             style={{
-              top: star.t + '%',
-              left: star.l + '%',
-              width: star.s + 'px',
-              height: star.s + 'px',
-              animationDuration: (2 + (idx % 3)) + 's',
+              top: `${star.t}%`,
+              left: `${star.l}%`,
+              width: `${star.s}px`,
+              height: `${star.s}px`,
+              animationDuration: `${star.dur}s`,
+              animationDelay: `${star.delay}s`,
+              '--twinkle-dur': `${star.dur}s`,
+              '--twinkle-delay': `${star.delay}s`,
             }}
           />
         ))}
       </div>
 
-      {/* ── TOP HEADER WITH SCROLL PROGRESS TRACKER ── */}
+      {/* ── TOP HEADER WITH TIME TRACKER ── */}
       <div
-        className="relative z-10 max-w-7xl mx-auto w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b text-left transition-colors duration-300"
+        className="relative z-10 max-w-7xl mx-auto w-full flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b text-left transition-colors duration-300"
         style={{ borderColor: isDaytime ? 'rgba(23,43,58,0.15)' : 'rgba(255,255,255,0.18)' }}
       >
         <div className="space-y-1">
-          <div
-            className={
-              'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono tracking-widest transition-all duration-300 ' +
-              (isDaytime
-                ? 'bg-white/80 border border-[#C86B4A]/30 text-[#C86B4A] shadow-xs'
-                : 'bg-white/10 border border-white/15 text-[#C86B4A]')
-            }
-          >
-            <CurrentIcon className="w-3.5 h-3.5" />
-            <span>03 / 24/7 CELESTIAL PINNED SCROLL</span>
-          </div>
+          <span className="text-xs font-mono uppercase tracking-widest text-[#C86B4A] font-semibold block">
+            ALWAYS OPEN · ALWAYS READY
+          </span>
           <h2
             className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold transition-colors duration-200"
             style={{ color: dynamicTextColor }}
           >
-            Always Open. Always Ready.
+            24/7. Day or Night. We’re Here.
           </h2>
+          <p
+            className="text-xs sm:text-sm font-light transition-colors duration-200 opacity-75"
+            style={{ color: dynamicTextColor }}
+          >
+            Starting your day · Grabbing a quick meal · Picking up groceries · Late-night stops.
+          </p>
         </div>
 
-        <div className="flex items-center gap-4 text-xs font-mono">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#172B3A] border border-white/20 shadow-md backdrop-blur-md text-white">
+        <div className="flex items-center gap-3 text-xs font-mono">
+          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#172B3A] border border-white/20 shadow-md backdrop-blur-md text-white">
             <span className="w-2 h-2 rounded-full bg-[#C86B4A] animate-pulse" />
             <span className="font-bold text-[#F5B862]">{current.time}</span>
             <span className="text-white/40">•</span>
             <span className="uppercase text-[#E5D8C5] tracking-wider">{current.period}</span>
-          </div>
-
-          <div
-            className={
-              'hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-300 ' +
-              (isDaytime
-                ? 'bg-[#172B3A]/8 border-[#172B3A]/15 text-[#172B3A]'
-                : 'bg-white/10 border-white/15 text-white/85')
-            }
-          >
-            <span className="text-[#C86B4A] font-bold">Scroll: {Math.round(scrollProgress * 100)}%</span>
-            <span>(Screen Locked In Place)</span>
           </div>
         </div>
       </div>
@@ -241,26 +280,26 @@ export function TwentyFourSevenWindow() {
       {/* ── CELESTIAL SKY DOME (PINNED IN VIEW WHILE SUN & MOON MOVE) ── */}
       <div
         className={
-          'relative z-10 max-w-7xl mx-auto w-full flex-1 my-3 aspect-[16/8] sm:aspect-[21/9] rounded-[32px] overflow-hidden border shadow-2xl p-6 sm:p-8 flex flex-col justify-between bg-black/40 backdrop-blur-md transition-colors duration-500 ' +
-          (isDaytime ? 'border-[#172B3A]/20' : 'border-white/20')
+          'relative z-10 max-w-7xl mx-auto w-full flex-1 my-3 aspect-[16/8] sm:aspect-[21/9] rounded-[28px] overflow-hidden border shadow-xl p-6 sm:p-8 flex flex-col justify-between bg-black/40 backdrop-blur-md transition-colors duration-500 ' +
+          (isDaytime ? 'border-[#172B3A]/15' : 'border-white/15')
         }
       >
         {/* Dynamic Sky Gradient */}
         <div
           className={'absolute inset-0 transition-all duration-700 opacity-90 bg-gradient-to-b ' + current.skyGradient}
         />
-        <div className="absolute inset-0 bg-grain pointer-events-none opacity-30" />
+        <div className="absolute inset-0 bg-grain pointer-events-none opacity-25" />
 
         {/* Celestial Orbital Arc */}
         <svg viewBox="0 0 1000 400" className="w-full h-full absolute inset-0 pointer-events-none">
           <path
             d="M 50 360 Q 500 40 950 360"
             fill="none"
-            stroke="rgba(255,255,255,0.2)"
+            stroke="rgba(255,255,255,0.18)"
             strokeWidth="1.5"
             strokeDasharray="4 8"
           />
-          <line x1="0" y1="360" x2="1000" y2="360" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+          <line x1="0" y1="360" x2="1000" y2="360" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
         </svg>
 
         {/* Dynamic Sun */}
@@ -274,9 +313,9 @@ export function TwentyFourSevenWindow() {
           }}
         >
           <div className="relative flex items-center justify-center">
-            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-amber-400/25 blur-xl animate-pulse" />
-            <div className="absolute w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-200 shadow-[0_0_50px_rgba(251,191,36,0.8)] border border-yellow-100 flex items-center justify-center">
-              <Sun className="w-6 h-6 sm:w-8 sm:h-8 text-amber-900/80" />
+            <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-amber-400/25 blur-xl animate-pulse" />
+            <div className="absolute w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-200 shadow-[0_0_40px_rgba(251,191,36,0.8)] border border-yellow-100 flex items-center justify-center">
+              <Sun className="w-5 h-5 sm:w-7 sm:h-7 text-amber-900/80" />
             </div>
           </div>
         </div>
@@ -292,47 +331,43 @@ export function TwentyFourSevenWindow() {
           }}
         >
           <div className="relative flex items-center justify-center">
-            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-cyan-300/20 blur-xl animate-pulse" />
-            <div className="absolute w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-slate-200 to-white shadow-[0_0_45px_rgba(255,255,255,0.85)] border border-white flex items-center justify-center">
-              <Moon className="w-6 h-6 sm:w-8 sm:h-8 text-slate-800" />
+            <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-cyan-300/20 blur-xl animate-pulse" />
+            <div className="absolute w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-gradient-to-tr from-slate-200 to-white shadow-[0_0_35px_rgba(255,255,255,0.85)] border border-white flex items-center justify-center">
+              <Moon className="w-5 h-5 sm:w-7 sm:h-7 text-slate-800" />
             </div>
           </div>
         </div>
 
-        {/* Top HUD inside Dome */}
+        {/* Top subtle indicator inside Dome */}
         <div className="relative z-20 flex items-center justify-between text-xs font-mono">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20">
-            <span className="text-[10px] uppercase tracking-widest text-[#F5B862] font-bold">
-              AUDIENCE: {current.audience.toUpperCase()}
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/15 text-[#F5B862]">
+            <CurrentIcon className="w-3.5 h-3.5" />
+            <span className="text-[10px] uppercase tracking-widest font-semibold">
+              {current.period}
             </span>
           </div>
 
-          <div className="hidden sm:flex items-center gap-2 text-white/80 bg-black/50 px-3 py-1.5 rounded-full border border-white/10">
-            <Sparkles className="w-3.5 h-3.5 text-[#C86B4A]" />
-            <span>SCROLL TO MOVE SUN & MOON (LOCKED IN VIEW)</span>
+          <div className="text-[11px] font-mono text-white/70 bg-black/40 px-3 py-1 rounded-full border border-white/10">
+            <span>Scroll through the 24 hours</span>
           </div>
         </div>
 
         {/* Bottom Narrative Message (Direct from PDF) */}
-        <div className="relative z-20 max-w-2xl text-left space-y-1.5 bg-black/50 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/10">
-          <span className="text-[11px] font-mono uppercase tracking-widest text-[#F5B862] font-bold block">
+        <div className="relative z-20 max-w-xl text-left space-y-1.5 bg-black/55 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/10">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-[#F5B862] font-semibold block">
             {current.period} · {current.time}
           </span>
-          <h3 className="font-serif text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-tight">
+          <h3 className="font-serif text-lg sm:text-2xl font-bold text-white leading-tight">
             {current.headline}
           </h3>
           <p className="text-xs sm:text-sm text-[#E5D8C5]/90 font-light leading-relaxed">
             {current.message}
           </p>
-          <div className="pt-1 text-[11px] font-mono text-[#F5B862] flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C86B4A]" />
-            <span>{current.craft}</span>
-          </div>
         </div>
       </div>
 
       {/* ── BOTTOM TIME SCRUBBER TILES ── */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-2 md:grid-cols-4 gap-2 text-left">
+      <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-2 md:grid-cols-4 gap-2.5 text-left">
         {PHASES.map((p, idx) => {
           const Icon = p.icon;
           const isActive = activePhaseIndex === idx;
@@ -340,14 +375,14 @@ export function TwentyFourSevenWindow() {
             <div
               key={p.id}
               className={
-                'p-3 rounded-xl border transition-all duration-300 flex flex-col justify-between gap-1 card-pop-subtle ' +
+                'p-3 rounded-xl border transition-all duration-300 flex flex-col justify-between gap-1 ' +
                 (isDaytime
                   ? isActive
-                    ? 'bg-[#172B3A] border-[#C86B4A] text-white shadow-lg'
-                    : 'bg-white/80 border-[#172B3A]/12 text-[#172B3A] shadow-xs hover:bg-white'
+                    ? 'bg-[#172B3A] border-[#C86B4A] text-white shadow-md'
+                    : 'bg-white/85 border-[#172B3A]/10 text-[#172B3A] shadow-xs'
                   : isActive
-                    ? 'bg-white/20 border-white text-white shadow-lg backdrop-blur-md'
-                    : 'bg-black/35 border-white/15 text-white/70 hover:bg-black/50 backdrop-blur-md')
+                    ? 'bg-white/20 border-white text-white shadow-md backdrop-blur-md'
+                    : 'bg-black/35 border-white/15 text-white/70 backdrop-blur-md')
               }
             >
               <div className="flex items-center justify-between">

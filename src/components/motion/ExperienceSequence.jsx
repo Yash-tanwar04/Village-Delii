@@ -14,7 +14,7 @@ export function ExperienceSequence() {
       ...EXPERIENCES.items[0],
       icon: Wheat,
       badge: "Onsite Chakki Mill",
-      image: "/assets/images/store-interior.jpg",
+      image: "/assets/images/ghibli-produce.jpg",
       direction: "left",
       quote: "Stone-ground milling at low temperature preserves natural vitamins, aroma and dietary fiber."
     },
@@ -22,7 +22,7 @@ export function ExperienceSequence() {
       ...EXPERIENCES.items[1],
       icon: Citrus,
       badge: "Cold-Pressed Juices",
-      image: "/assets/images/hero-scenery.jpg",
+      image: "/assets/images/ghibli-store-front.jpg",
       direction: "right",
       quote: "100% raw juice extracted slowly to retain live enzymes and nutrients without added sugars."
     },
@@ -30,7 +30,7 @@ export function ExperienceSequence() {
       ...EXPERIENCES.items[2],
       icon: Flame,
       badge: "Artisanal Ovens",
-      image: "/assets/images/store-approach.jpg",
+      image: "/assets/images/ghibli-bakery.jpg",
       direction: "left",
       quote: "Freshly prepared batches of artisanal sourdough loaves, morning croissants, and tea cakes."
     },
@@ -38,7 +38,7 @@ export function ExperienceSequence() {
       ...EXPERIENCES.items[3],
       icon: Zap,
       badge: "Frictionless Flow",
-      image: "/assets/images/store-night.jpg",
+      image: "/assets/images/ghibli-transit.jpg",
       direction: "right",
       quote: "Wide aisles and instant contactless billing designed for people on the move."
     },
@@ -46,7 +46,7 @@ export function ExperienceSequence() {
       ...EXPERIENCES.items[4],
       icon: Armchair,
       badge: "Neighbourhood Hospitality",
-      image: "/assets/images/store-interior.jpg",
+      image: "/assets/images/ghibli-cafe.jpg",
       direction: "left",
       quote: "Comfortable oak seating, charging points, and a serene ambiance to recharge your mind."
     },

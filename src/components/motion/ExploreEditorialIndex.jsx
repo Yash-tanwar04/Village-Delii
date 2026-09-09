@@ -1,185 +1,194 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, Sparkles, BookOpen, ShoppingBag, Flame, MapPin, Route, Handshake, Users, ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
 export function ExploreEditorialIndex() {
-  const dimensions = [
+  const [hoveredOffering, setHoveredOffering] = useState(0);
+
+  const offerings = [
     {
       num: '01',
-      title: 'About Village Deli',
-      tagline: 'Brand Ethos & Promise',
-      desc: 'Built around making everyday living easier. A 24/7 modern convenience sanctuary combining operational excellence with community care.',
-      topics: 'Brand Manifesto · Ethos Triptych · Quality Benchmark · Strategic Pillars',
-      path: '/about',
-      badge: 'MANIFESTO',
-      icon: BookOpen,
-      cols: 'lg:col-span-7',
-      accent: 'border-[#C86B4A]/30 bg-white/90',
+      title: 'Groceries & Daily Needs',
+      desc: 'Daily essentials, wholesomely sourced grains, unpolished pulses, and premium pantry goods curated for modern living.',
     },
     {
       num: '02',
-      title: 'What We Offer',
-      tagline: '6 Curated Retail Pillars',
-      desc: 'Stone-ground flours, farm-fresh produce, live European bakery, chef grab-and-go meals, cold-pressed juices, and daily essentials.',
-      topics: 'Pantry Staples · Fresh Farm Produce · Artisan Bakery · Quick Meals',
-      path: '/offerings',
-      badge: 'MARKETPLACE',
-      icon: ShoppingBag,
-      cols: 'lg:col-span-5',
-      accent: 'border-[#172B3A]/15 bg-white/70',
+      title: 'Farm-Fresh Produce',
+      desc: 'Seasonal fruits and crisp vegetables selected every morning for everyday kitchen freshness.',
     },
     {
       num: '03',
-      title: 'The Experience',
-      tagline: '5 Onsite Sensory Rituals',
-      desc: 'Stone-chakki milling, raw cold-pressed citrus, daily live deck ovens, frictionless speed checkout, and welcoming solid oak lounge seating.',
-      topics: 'Live Milling · Cold Extraction · Deck Ovens · Oak Lounge Hospitality',
-      path: '/experience',
-      badge: 'CRAFT ATELIER',
-      icon: Flame,
-      cols: 'lg:col-span-5',
-      accent: 'border-[#172B3A]/15 bg-white/70',
+      title: 'Fresh Bakery',
+      desc: 'Warm artisanal sourdough loaves, flaky butter croissants, and teatime treats baked daily in store ovens.',
     },
     {
       num: '04',
-      title: 'Store Directory',
-      tagline: 'Interactive Locator',
-      desc: 'Find Village Deli across Dwarka Expressway, Sohna Road, GT Road, and key North Indian transit intersections with verified 24/7 navigation.',
-      topics: 'Stationary Map View · Highway Interchanges · Live Hours · Direct Navigation',
-      path: '/locations',
-      badge: '24/7 NETWORK',
-      icon: MapPin,
-      cols: 'lg:col-span-7',
-      accent: 'border-[#C86B4A]/30 bg-white/90',
+      title: 'Quick Meals & Grab-and-Go',
+      desc: 'Chef-prepared toasted deli sandwiches, nutritious wraps, and warm savoury snacks ready when you are.',
     },
     {
       num: '05',
-      title: 'Our Expansion',
-      tagline: 'Punjab → Haryana Blueprint',
-      desc: 'From our Punjab highway heritage to 2026 expansion across Haryana mobility hubs, townships, and our HarHith + Vita state collaboration.',
-      topics: '3 Regional Horizons · 6 Format Archetypes · HarHith Alliance',
-      path: '/expansion',
-      badge: 'REGIONAL BLUEPRINT',
-      icon: Route,
-      cols: 'lg:col-span-4',
-      accent: 'border-[#172B3A]/15 bg-white/70',
+      title: 'Beverages & Refreshments',
+      desc: 'Barista-pulled espresso, raw cold-pressed citrus, herbal infusions, and sparkling refreshments.',
     },
     {
       num: '06',
-      title: 'Partner With Us',
-      tagline: '4 Commercial Tracks',
-      desc: 'Collaborate with Village Deli as a property owner, fuel station network operator, regional retail franchisee, or institutional state alliance.',
-      topics: 'Property Lease · Fuel Station Networks · Franchisee Models · Direct Concierge',
-      path: '/partner',
-      badge: 'ALLIANCES',
-      icon: Handshake,
-      cols: 'lg:col-span-4',
-      accent: 'border-[#172B3A]/15 bg-white/70',
+      title: 'Dairy & Packaged Essentials',
+      desc: 'Pure farm-fresh milk, cultured yoghurt, artisanal paneer, and household personal care provisions.',
+    },
+  ];
+
+  const brandChapters = [
+    {
+      num: '01',
+      label: 'About Village Deli',
+      detail: 'Our brand ethos, 24/7 availability & HarHith-Vita collaboration',
+      path: '/about',
     },
     {
-      num: '07',
-      title: 'Careers',
-      tagline: 'Build the Future With Us',
-      desc: 'Join a high-velocity retail organization across operations, culinary craft, store management, technology systems, and business development.',
-      topics: '6 Opportunity Tracks · Frontline Empowerment · Rapid Growth · Merit Culture',
-      path: '/careers',
-      badge: 'TALENT & CULTURE',
-      icon: Users,
-      cols: 'lg:col-span-4',
-      accent: 'border-[#172B3A]/15 bg-white/70',
+      num: '02',
+      label: 'The Experience',
+      detail: '5 onsite sensory rituals: live stone chakki, deck ovens & oak lounge',
+      path: '/experience',
+    },
+    {
+      num: '03',
+      label: 'Store Directory',
+      detail: 'Locate 24/7 stores across Dwarka Expressway, Sohna Road & highway corridors',
+      path: '/locations',
+    },
+    {
+      num: '04',
+      label: 'Regional Expansion',
+      detail: '6 strategic retail formats connecting North India mobility corridors',
+      path: '/expansion',
+    },
+    {
+      num: '05',
+      label: 'Partner With Us',
+      detail: 'Property leases, fuel station alliances & institutional tracks',
+      path: '/partner',
     },
   ];
 
   return (
-    <section className="relative py-24 lg:py-32 bg-[#F7F4ED] text-[#202321] overflow-hidden border-b border-[#E5D8C5]">
-      {/* Background typographic watermark */}
-      <div className="absolute top-8 right-8 text-[15vw] font-serif font-black text-[#172B3A]/[0.025] select-none pointer-events-none leading-none">
-        DIMENSIONS
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10 text-left">
-        {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16">
-          <div className="max-w-2xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#172B3A]/5 border border-[#E5D8C5] text-xs font-mono tracking-widest text-[#C86B4A]">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>04 / THE VILLAGE DELI COMPENDIUM</span>
+    <section className="relative py-20 lg:py-28 bg-[#F7F4ED] text-[#202321] border-b border-[#E5D8C5]">
+      <div className="max-w-7xl mx-auto px-6">
+        
+        {/* ── PART A: WHAT WE OFFER — EDITORIAL SPLIT INDEX ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start pb-20 border-b border-[#172B3A]/10 text-left">
+          
+          {/* Left Column: Quiet, dignified editorial anchor */}
+          <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-28">
+            <div className="space-y-3">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#C86B4A] font-semibold block">
+                02 / WHAT WE OFFER
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#172B3A] leading-tight">
+                Everything You Need.
+                <span className="block italic text-[#C86B4A] font-medium mt-1">
+                  All Under One Roof.
+                </span>
+              </h2>
             </div>
-            <h2 className="font-serif text-4xl sm:text-6xl font-bold tracking-tight text-[#172B3A] leading-[1.05]">
-              Every Dimension of Your Everyday Sanctuary.
-            </h2>
-          </div>
-          <p className="text-sm sm:text-base text-[#202321]/75 max-w-md font-light leading-relaxed">
-            Hover over any dimension to inspect chapter highlights, or click through to explore our comprehensive editorial chapters.
-          </p>
-        </div>
 
-        {/* ── THE EDITORIAL MAGAZINE DIRECTORY GRID (WITH HOVER REVEALS) ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
-          {dimensions.map((dim) => {
-            const Icon = dim.icon;
-            return (
+            <p className="text-sm sm:text-base text-[#202321]/75 font-light leading-relaxed max-w-md">
+              Village Deli brings together the products and services that make everyday life simpler.
+              From farm-fresh produce to live bakery and 24/7 household essentials, quality is never compromised.
+            </p>
+
+            <div className="pt-2">
               <Link
-                key={dim.path}
-                to={dim.path}
-                data-cursor="EXPLORE"
-                className={dim.cols + ' card-pop group relative p-8 sm:p-10 rounded-[28px] border shadow-xs cursor-pointer flex flex-col justify-between overflow-hidden ' + dim.accent}
+                to="/offerings"
+                className="inline-flex items-center gap-2.5 text-xs sm:text-sm font-semibold tracking-wider text-[#172B3A] hover:text-[#C86B4A] transition-colors group"
               >
-                {/* Top Row: Numeral + Badge + Arrow Action */}
-                <div className="flex items-center justify-between pb-6 border-b border-[#172B3A]/10">
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono text-base font-bold text-[#C86B4A]">
-                      {dim.num}
+                <span>Explore Full Retail Directory</span>
+                <ArrowRight className="w-4 h-4 text-[#C86B4A] group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Right Column: Numbered Editorial Typographic List */}
+          <div className="lg:col-span-7 divide-y divide-[#172B3A]/10">
+            {offerings.map((item, idx) => (
+              <div
+                key={item.num}
+                onMouseEnter={() => setHoveredOffering(idx)}
+                className="py-5 sm:py-6 group transition-colors cursor-pointer"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-baseline gap-4 sm:gap-6">
+                    <span className="font-mono text-xs sm:text-sm font-bold text-[#C86B4A]">
+                      {item.num}
                     </span>
-                    <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-full bg-[#172B3A]/5 text-[#172B3A] font-semibold group-hover:bg-[#C86B4A] group-hover:text-white transition-colors duration-300">
-                      {dim.badge}
-                    </span>
-                  </div>
-
-                  <div className="w-10 h-10 rounded-full border border-[#172B3A]/20 flex items-center justify-center text-[#172B3A] group-hover:bg-[#C86B4A] group-hover:border-[#C86B4A] group-hover:text-white transition-all duration-300">
-                    <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </div>
-                </div>
-
-                {/* Center Content */}
-                <div className="my-6 space-y-2">
-                  <div className="flex items-center gap-2.5 text-xs font-mono text-[#C86B4A] font-bold">
-                    <Icon className="w-4 h-4" />
-                    <span>{dim.tagline}</span>
-                  </div>
-
-                  <h3 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#172B3A] group-hover:text-[#C86B4A] transition-colors duration-300">
-                    {dim.title}
-                  </h3>
-
-                  <p className="text-sm text-[#202321]/80 font-light leading-relaxed pt-1">
-                    {dim.desc}
-                  </p>
-
-                  {/* Dynamic Hover Reveal Topics Drawer */}
-                  <div className="max-h-0 opacity-0 group-hover:max-h-16 group-hover:opacity-100 transition-all duration-400 overflow-hidden pt-0 group-hover:pt-3">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#172B3A]/5 border border-[#C86B4A]/30 text-[11px] font-mono text-[#C86B4A]">
-                      <span>✦ {dim.topics}</span>
+                    <div className="space-y-1">
+                      <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#172B3A] group-hover:text-[#C86B4A] transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-[#202321]/70 font-light leading-relaxed max-w-xl">
+                        {item.desc}
+                      </p>
                     </div>
                   </div>
-                </div>
 
-                {/* Bottom Footer Indicator + Expanding Accent Line */}
-                <div className="pt-4 border-t border-[#172B3A]/10 flex items-center justify-between text-xs font-mono text-[#202321]/60">
-                  <span className="group-hover:text-[#172B3A] font-semibold transition-colors flex items-center gap-1">
-                    <span>Explore Chapter</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <span className="text-[#C86B4A] font-bold">24/7 ACCESS</span>
+                  <Link
+                    to="/offerings"
+                    className="shrink-0 p-2 rounded-full border border-transparent group-hover:border-[#C86B4A]/30 text-[#172B3A]/40 group-hover:text-[#C86B4A] transition-all"
+                    title={`View ${item.title}`}
+                  >
+                    <ArrowUpRight className="w-4 h-4" />
+                  </Link>
                 </div>
+              </div>
+            ))}
+          </div>
 
-                {/* Expanding Bottom Terracotta Highlight Accent */}
-                <div className="absolute bottom-0 left-0 w-0 group-hover:w-full h-1 bg-[#C86B4A] transition-all duration-500" />
-              </Link>
-            );
-          })}
         </div>
+
+        {/* ── PART B: BRAND CHAPTERS — HORIZONTAL MONOGRAPH INDEX ── */}
+        <div className="pt-16 text-left">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+              <span className="text-xs font-mono uppercase tracking-widest text-[#C86B4A] font-semibold block mb-1">
+                03 / BRAND MONOGRAPH
+              </span>
+              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#172B3A]">
+                Explore Every Chapter
+              </h3>
+            </div>
+            <span className="text-xs font-mono text-[#202321]/50">
+              EDITORIAL CHAPTER DIRECTORY
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            {brandChapters.map((ch) => (
+              <Link
+                key={ch.path}
+                to={ch.path}
+                className="p-5 rounded-2xl bg-white/70 border border-[#E5D8C5] hover:border-[#C86B4A]/50 hover:bg-white transition-all flex flex-col justify-between space-y-4 group shadow-2xs"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs font-bold text-[#C86B4A]">
+                    {ch.num}
+                  </span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-[#172B3A]/40 group-hover:text-[#C86B4A] transition-colors" />
+                </div>
+                <div>
+                  <h4 className="font-serif text-base font-bold text-[#172B3A] group-hover:text-[#C86B4A] transition-colors">
+                    {ch.label}
+                  </h4>
+                  <p className="text-xs text-[#202321]/65 font-light leading-relaxed mt-1">
+                    {ch.detail}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );
 }
+

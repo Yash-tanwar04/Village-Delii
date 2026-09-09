@@ -14,37 +14,37 @@ export function ConvenienceArchetypes() {
     {
       ...EXPANSION.archetypes.items[0],
       icon: Route,
-      image: "/assets/images/hero-scenery.jpg",
+      image: "/assets/images/ghibli-expansion.jpg",
       tag: "Mobility & Commute",
     },
     {
       ...EXPANSION.archetypes.items[1],
       icon: Fuel,
-      image: "/assets/images/store-approach.jpg",
+      image: "/assets/images/ghibli-night.jpg",
       tag: "Refuel & Refresh",
     },
     {
       ...EXPANSION.archetypes.items[2],
       icon: Building2,
-      image: "/assets/images/store-interior.jpg",
+      image: "/assets/images/ghibli-store-front.jpg",
       tag: "Local Living",
     },
     {
       ...EXPANSION.archetypes.items[3],
       icon: Home,
-      image: "/assets/images/store-night.jpg",
+      image: "/assets/images/ghibli-cafe.jpg",
       tag: "Doorstep Access",
     },
     {
       ...EXPANSION.archetypes.items[4],
       icon: Train,
-      image: "/assets/images/hero-scenery.jpg",
+      image: "/assets/images/ghibli-transit.jpg",
       tag: "High Footfall",
     },
     {
       ...EXPANSION.archetypes.items[5],
       icon: Briefcase,
-      image: "/assets/images/store-interior.jpg",
+      image: "/assets/images/ghibli-bakery.jpg",
       tag: "Workplace & Retail",
     },
   ];

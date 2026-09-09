@@ -4,106 +4,43 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ─── 01. Hero → Brand Manifesto ──────────────────────────────────────────
-   Central spine dot + outward rule. Tight vertical footprint.
+/* ─── 01. Hero → 24/7 Living Window ──────────────────────────────────────
+   Seamless, elegant editorial transition line. No empty space or bloat.
 ──────────────────────────────────────────────────────────────────────────── */
-export function DividerHeroToManifesto() {
-  const lineLeftRef  = useRef(null);
-  const lineRightRef = useRef(null);
-  const nodeRef      = useRef(null);
-  const labelRef     = useRef(null);
+export function DividerHeroToTwentyFour() {
+  const lineRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: nodeRef.current,
-          start: 'top 95%',
-          toggleActions: 'play none none reverse',
-        },
-      });
-      tl.from(nodeRef.current,  { scale: 0, duration: 0.4, ease: 'back.out(2)' })
-        .from([lineLeftRef.current, lineRightRef.current], { scaleX: 0, duration: 0.7, stagger: 0.04, ease: 'power3.out' }, '-=0.15')
-        .from(labelRef.current, { opacity: 0, y: 6, duration: 0.4 }, '-=0.3');
+      if (lineRef.current) {
+        gsap.from(lineRef.current, {
+          scaleX: 0,
+          transformOrigin: 'center center',
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: lineRef.current,
+            start: 'top 95%',
+          },
+        });
+      }
     });
     return () => ctx.revert();
   }, []);
 
   return (
-    <div className="relative w-full bg-[#F7F4ED] pt-4 pb-5 overflow-hidden">
-      {/* Incoming spine from hero */}
-      <div className="w-px h-8 mx-auto bg-gradient-to-b from-[#C86B4A]/80 to-[#C86B4A]/30 mb-1" />
-
-      <div className="max-w-7xl mx-auto px-6 flex items-center">
-        <div ref={lineLeftRef}
-          className="flex-1 h-px origin-right"
-          style={{ background: 'linear-gradient(to left, rgba(23,43,58,0.35), transparent)' }} />
-
-        <div ref={nodeRef}
-          className="mx-4 flex items-center gap-2 px-3 py-1 rounded-full border border-[#C86B4A]/45 bg-white/85 text-[11px] font-mono tracking-widest text-[#172B3A] shadow-xs whitespace-nowrap">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C86B4A] animate-pulse" />
-          <span className="font-bold">01 / BRAND ETHOS</span>
-          <span className="text-[#C86B4A]">•</span>
-          <span className="text-[10px] text-[#C86B4A] font-bold">ALWAYS HERE FOR YOU ✦</span>
+    <div id="twenty-four-seven" className="relative w-full bg-[#F7F4ED] pt-6 pb-4 overflow-hidden select-none">
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <span className="w-2 h-2 rounded-full bg-[#C86B4A]" />
+          <span className="text-[11px] font-mono uppercase tracking-widest text-[#172B3A] font-bold">
+            01 / 24/7 LIVING RHYTHM
+          </span>
         </div>
-
-        <div ref={lineRightRef}
-          className="flex-1 h-px origin-left"
-          style={{ background: 'linear-gradient(to right, rgba(23,43,58,0.35), transparent)' }} />
-      </div>
-
-      <div ref={labelRef} className="text-center mt-1.5">
-        <span className="text-[9px] font-mono uppercase tracking-widest text-[#202321]/45">
-          FRESH · CONVENIENT · TRUSTED · 24/7
+        <div ref={lineRef} className="flex-1 h-px bg-[#172B3A]/15 mx-6" />
+        <span className="text-[11px] font-mono uppercase tracking-wider text-[#202321]/50 hidden sm:inline-block">
+          ROUND-THE-CLOCK SANCTUARY
         </span>
-      </div>
-    </div>
-  );
-}
-
-/* ─── 02. Brand Manifesto → Pinned Experience ─────────────────────────────
-   Horizontal kinetic ticker. Single border line above & below.
-──────────────────────────────────────────────────────────────────────────── */
-export function DividerManifestoToExperience() {
-  const tickerRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.to(tickerRef.current, {
-        xPercent: -30,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: tickerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.7,
-        },
-      });
-    });
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <div className="relative w-full bg-[#F7F4ED] border-y border-[#172B3A]/13 py-3 overflow-hidden">
-      <div ref={tickerRef}
-        className="whitespace-nowrap flex items-center gap-8 text-[11px] font-mono uppercase tracking-[0.22em] text-[#172B3A]/65 font-semibold will-change-transform">
-        {[
-          '02 / THE EXPERIENCE',
-          'STONE GROUND CHAKKI',
-          'COLD PRESSED CITRUS',
-          'LIVE ARTISANAL OVEN',
-          'QUICK & CONVENIENT',
-          'OAK SEATING & BARISTA',
-          'ALWAYS OPEN 24/7',
-          '02 / THE EXPERIENCE',
-          'STONE GROUND CHAKKI',
-          'LIVE ARTISANAL OVEN',
-        ].map((t, i) => (
-          <React.Fragment key={i}>
-            <span>{t}</span>
-            <span className="text-[#C86B4A]">✦</span>
-          </React.Fragment>
-        ))}
       </div>
     </div>
   );

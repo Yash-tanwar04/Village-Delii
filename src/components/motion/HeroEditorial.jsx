@@ -49,7 +49,14 @@ export function HeroEditorial() {
 
   // Smooth scroll to 24/7 Celestial window
   const scrollToTwentyFour = () => {
-    window.scrollBy({ top: window.innerHeight * 2.2, behavior: 'smooth' });
+    const target = document.getElementById('twenty-four-seven-window') || document.getElementById('twenty-four-seven');
+    if (target) {
+      const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--navbar-height')) || 72;
+      const targetPos = target.getBoundingClientRect().top + window.scrollY - navH;
+      window.scrollTo({ top: targetPos, behavior: 'smooth' });
+    } else {
+      window.scrollBy({ top: window.innerHeight * 0.9, behavior: 'smooth' });
+    }
   };
 
   useEffect(() => {
@@ -278,8 +285,9 @@ export function HeroEditorial() {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative w-full h-screen min-h-[660px] lg:min-h-screen bg-[#F7F4ED] text-[#172B3A] flex flex-col justify-between pt-20 sm:pt-22 pb-6 px-6 sm:px-12 overflow-hidden select-none border-b border-[#E5D8C5]/60"
+      className="relative w-full h-screen min-h-[660px] lg:min-h-screen bg-[#F7F4ED] text-[#172B3A] flex flex-col justify-between pb-6 px-6 sm:px-12 overflow-hidden select-none border-b border-[#E5D8C5]/60"
       style={{
+        paddingTop: 'calc(var(--navbar-height, 72px) + 0.75rem)',
         background: 'radial-gradient(ellipse at 50% 48%, #FDFBF7 0%, #F7F4ED 65%, #F2ECE0 100%)',
       }}
     >
@@ -475,20 +483,20 @@ export function HeroEditorial() {
         className="relative z-20 max-w-4xl mx-auto w-full text-center my-auto py-2 sm:py-3 select-none will-change-transform"
       >
         {/* Eyebrow badge */}
-        <div className="hero-mount-elem inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full text-xs font-mono uppercase tracking-[0.26em] text-[#172B3A] mb-2 sm:mb-3">
-          <span className="text-[#C86B4A] text-sm leading-none">✦</span>
+        <div className="hero-mount-elem inline-flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3.5 py-1 rounded-full text-[10px] sm:text-xs font-mono uppercase tracking-[0.16em] sm:tracking-[0.26em] text-[#172B3A] mb-2 sm:mb-3">
+          <span className="text-[#C86B4A] text-xs sm:text-sm leading-none">✦</span>
           <span className="font-semibold">A 24/7 NEIGHBOURHOOD SANCTUARY</span>
-          <span className="text-[#C86B4A] text-sm leading-none">✦</span>
+          <span className="text-[#C86B4A] text-xs sm:text-sm leading-none">✦</span>
         </div>
 
         {/* Main Serif Headline: 100% Razor-Sharp Web Fonts */}
         <div className="hero-mount-elem space-y-0 sm:space-y-1">
-          <h1 className="font-serif font-bold text-5xl sm:text-7xl md:text-8xl lg:text-[6.6rem] text-[#172B3A] tracking-tight leading-[0.93] drop-shadow-xs">
+          <h1 className="font-serif font-bold text-4xl sm:text-7xl md:text-8xl lg:text-[6.6rem] text-[#172B3A] tracking-tight leading-[0.93] drop-shadow-xs">
             Always
           </h1>
 
           <div className="relative inline-block mt-0.5 sm:mt-1">
-            <h1 className="font-serif font-bold text-5xl sm:text-7xl md:text-8xl lg:text-[6.6rem] text-[#172B3A] tracking-tight leading-[0.93] drop-shadow-xs">
+            <h1 className="font-serif font-bold text-4xl sm:text-7xl md:text-8xl lg:text-[6.6rem] text-[#172B3A] tracking-tight leading-[0.93] drop-shadow-xs">
               Here{' '}
               <span className="relative inline-block">
                 For

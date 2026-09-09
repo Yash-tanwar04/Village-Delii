@@ -20,12 +20,12 @@ export function OfferingsHorizontal() {
   };
 
   const images = {
-    groceries: "/assets/images/store-interior.jpg",
-    'fresh-produce': "/assets/images/hero-scenery.jpg",
-    'fresh-bakery': "/assets/images/store-approach.jpg",
-    'quick-meals': "/assets/images/store-interior.jpg",
-    beverages: "/assets/images/store-night.jpg",
-    'dairy-essentials': "/assets/images/network-expansion.jpg",
+    groceries: "/assets/images/ghibli-produce.jpg",
+    'fresh-produce': "/assets/images/ghibli-store-front.jpg",
+    'fresh-bakery': "/assets/images/ghibli-bakery.jpg",
+    'quick-meals': "/assets/images/ghibli-transit.jpg",
+    beverages: "/assets/images/ghibli-night.jpg",
+    'dairy-essentials': "/assets/images/ghibli-cafe.jpg",
   };
 
   useEffect(() => {

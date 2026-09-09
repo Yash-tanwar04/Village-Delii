@@ -17,25 +17,25 @@ export function PartnerSection() {
     {
       ...PARTNERS_DATA.categories[0],
       icon: Building,
-      image: "/assets/images/store-approach.jpg",
+      image: "/assets/images/ghibli-store-front.jpg",
       highlight: "Prime highway frontages, ground-floor township retail, and high-footfall corner plots.",
     },
     {
       ...PARTNERS_DATA.categories[1],
       icon: Fuel,
-      image: "/assets/images/hero-scenery.jpg",
+      image: "/assets/images/ghibli-night.jpg",
       highlight: "High-volume petrol pumps, expressways, and urban mobility hubs.",
     },
     {
       ...PARTNERS_DATA.categories[2],
       icon: Briefcase,
-      image: "/assets/images/store-interior.jpg",
+      image: "/assets/images/ghibli-transit.jpg",
       highlight: "Experienced retail operators and regional entrepreneurs seeking scalable formats.",
     },
     {
       ...PARTNERS_DATA.categories[3],
       icon: Handshake,
-      image: "/assets/images/network-expansion.jpg",
+      image: "/assets/images/ghibli-expansion.jpg",
       highlight: "State initiatives, agricultural cooperatives, corporate campuses, and transit authorities.",
     },
   ];

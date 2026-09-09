@@ -21,7 +21,7 @@ export function GatewayCards() {
       title: "What We Offer",
       subtitle: "Everything You Need. All Under One Roof.",
       description: "From everyday essentials and fresh farm produce to freshly baked goods, quick meals, and chilled beverages.",
-      image: "/assets/images/store-interior.jpg",
+      image: "/assets/images/ghibli-produce.jpg",
       badge: "6 DEPARTMENTS",
       icon: ShoppingBag,
       cta: "Explore Offerings"
@@ -31,7 +31,7 @@ export function GatewayCards() {
       title: "The Village Deli Experience",
       subtitle: "A Store Experience That Delivers More.",
       description: "Onsite stone-ground flour mill, cold-pressed raw juices, fresh oven bakes, express convenience, and a welcoming lounge.",
-      image: "/assets/images/hero-scenery.jpg",
+      image: "/assets/images/ghibli-bakery.jpg",
       badge: "ONSITE CRAFT",
       icon: Sparkles,
       cta: "Discover Experiences"
@@ -41,7 +41,7 @@ export function GatewayCards() {
       title: "Our Locations",
       subtitle: "Find Your Nearest Village Deli.",
       description: "Explore 24/7 neighbourhood stores across Haryana & Punjab with Google Maps navigation and instant calling.",
-      image: "/assets/images/store-night.jpg",
+      image: "/assets/images/ghibli-night.jpg",
       badge: "24/7 ALWAYS OPEN",
       icon: MapPin,
       cta: "Open Store Locator"
@@ -51,7 +51,7 @@ export function GatewayCards() {
       title: "Our Expansion Story",
       subtitle: "From Punjab to Haryana to North India.",
       description: "Strategic collaboration with HarHith & Vita, scaling across expressways, mobility hubs, and residential townships.",
-      image: "/assets/images/network-expansion.jpg",
+      image: "/assets/images/ghibli-expansion.jpg",
       badge: "REGIONAL NETWORK",
       icon: TrendingUp,
       cta: "View Expansion Plan"

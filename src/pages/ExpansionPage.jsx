@@ -1,868 +1,684 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Sparkles, ArrowRight, Route, Fuel, Building2, Home, Train, Briefcase, 
-  Handshake, CheckCircle2, Navigation, Compass, ShieldCheck, MapPin, 
-  ExternalLink, ChevronRight, Eye, Milestone, Clock, Layers, Award
+  ArrowRight,
+  Route,
+  Fuel,
+  Building2,
+  Home,
+  Train,
+  Briefcase,
+  Plus
 } from 'lucide-react';
-import gsap from 'gsap';
-import { EXPANSION } from '../data/expansion';
-import { TextReveal, ScrollReveal, CardPop } from '../components/motion/MotionPrimitives';
 
 export function ExpansionPage() {
-  const [activeChapter, setActiveChapter] = useState(1);
-  const [hoveredNode, setHoveredNode] = useState(null);
-  const tickerRef = useRef(null);
-  const reverseTickerRef = useRef(null);
-  const chapterContentRef = useRef(null);
+  const [activeFormat, setActiveFormat] = useState(0);
 
-  // Marquee Continuous Ticker Animation
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.to(tickerRef.current, {
-        xPercent: -50,
-        duration: 25,
-        repeat: -1,
-        ease: 'none',
-      });
-
-      gsap.to(reverseTickerRef.current, {
-        xPercent: 50,
-        duration: 28,
-        repeat: -1,
-        ease: 'none',
-      });
-    });
-    return () => ctx.revert();
-  }, []);
-
-  // Smooth fade when chapter changes
-  useEffect(() => {
-    if (chapterContentRef.current) {
-      gsap.fromTo(
-        chapterContentRef.current,
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }
-      );
-    }
-  }, [activeChapter]);
-
-  // 3 Strategic Regional Horizons
-  const chapters = [
+  const formats = [
     {
-      id: 1,
-      num: '01',
-      title: 'The Punjab Heritage',
-      subtitle: 'Proving Ground of 24/7 Highway Hospitality',
-      corridor: 'Grand Trunk Road (NH-44)',
-      period: 'ESTABLISHED & EXPANDING',
-      description: 'The foundation of the Village Deli philosophy. Born along the legendary Grand Trunk Road, this format demonstrated that long-distance travellers and local communities cherish an authentic, round-the-clock oasis offering live stone-chakki milling, warm hearth baking, clean washroom lounges, and pure food hospitality.',
-      nodes: [
-        { name: 'Punjab Highway Flagship', status: 'Operational 24/7', role: 'Original Heritage Anchor' },
-        { name: 'Ambala Highway Oasis', status: 'Inter-State Junction', role: 'Transit Rest Stop' },
-        { name: 'Karnal Agricultural Spine', status: 'Active Node', role: 'Farm-Direct Gateway' }
-      ],
-      metrics: {
-        density: '80,000+ Vehicles Daily',
-        footprint: '4,500 – 6,500 SQ. FT.',
-        signature: 'Live Stone Chakki Milling · Hearth Bakes · Oak Lounge'
-      },
-      image: '/assets/images/ghibli-day.jpg',
-      badge: 'HERITAGE BLUEPRINT'
-    },
-    {
-      id: 2,
-      num: '02',
-      title: 'Haryana 2026 Corridors',
-      subtitle: 'High-Density Transit & Urban Neighbourhoods',
-      corridor: 'Dwarka Expressway, Sohna Arterial & NH-48',
-      period: 'ACTIVE DEPLOYMENT 2026',
-      description: 'The primary growth engine of Village Deli. Integrating directly with Haryana\'s premier modern transport corridors, high-density residential townships, and corporate clusters. Designed for seamless grab-and-go convenience, midnight commuters, early airport travellers, and residential household pantry replenishment.',
-      nodes: [
-        { name: 'Sector 114 (Delhi-Gurgaon Border)', status: 'Q2 2026 Flagship', role: 'Expressway Gateway' },
-        { name: 'Sector 83 (NH-48 New Gurgaon)', status: 'Township Anchor', role: 'Mega-Residential Node' },
-        { name: 'K.D. Square (Sohna Arterial)', status: 'Commercial Axis', role: 'Daily Suburban Hub' },
-        { name: 'JMS Marine Square (Sector 102)', status: 'Transit Interchange', role: 'Urban Lifestyle Node' }
-      ],
-      metrics: {
-        density: '250,000+ Vehicles Daily',
-        footprint: '2,500 – 5,000 SQ. FT.',
-        signature: '24/7 Drive-Through · Stone Atta Pickup · Cold-Chain Dairy'
-      },
-      image: '/assets/images/store-approach.jpg',
-      badge: 'IMMEDIATE FOCUS'
-    },
-    {
-      id: 3,
-      num: '03',
-      title: 'Connected North India',
-      subtitle: 'The Inter-State Integrated Network',
-      corridor: 'NCR Ring, Western Expressways & Beyond',
-      period: 'VISION 2026–2028',
-      description: 'An interconnected ecosystem linking Punjab, Haryana, Chandigarh, and Delhi NCR into a singular continuum of 24/7 convenience and clean food. Partnering with state institutions and green mobility hubs to ensure travellers never have to compromise on nutrition, hygiene, or comfort on North Indian journeys.',
-      nodes: [
-        { name: 'Chandigarh Highway Link', status: 'Planned Pipeline', role: 'Northern Corridor' },
-        { name: 'Delhi-Mumbai Expressway Hub', status: 'Feasibility Stage', role: 'Mobility Plaza' },
-        { name: 'Western Peripheral Arteries', status: 'Site Selection', role: 'Transit Connector' }
-      ],
-      metrics: {
-        density: 'Regional Scale',
-        footprint: 'Modular Formats',
-        signature: 'Standardized 24/7 Availability · EV Mobility Plazas'
-      },
-      image: '/assets/images/network-expansion.jpg',
-      badge: 'REGIONAL HORIZON'
-    }
-  ];
-
-  // 6 Archetype Formats with rich details and imagery
-  const archetypeDetails = [
-    {
-      ...EXPANSION.archetypes.items[0],
+      id: 'highways',
+      number: '01',
+      shortTitle: 'Highways',
+      title: 'Highways & Expressways',
+      category: 'TRAVEL PLAZA',
+      tagline: 'For travellers, commuters and long-distance journeys.',
+      desc: 'Travel plazas and fueling stations catering to long-distance drivers and highway commuters.',
+      features: ['24/7 Travel Plaza', 'EV & Fuel Bays', 'Fresh Deli & Bakery'],
+      image: '/assets/images/ghibli-expansion.jpg',
       icon: Route,
-      footprint: '3,000 – 6,000 sq.ft',
-      target: 'Highway commuters, holidaying families, inter-state fleet',
-      feature: 'Dedicated drive-in parking, clean washrooms, 24/7 hot bakery & cold pressed bar',
-      image: '/assets/images/store-night.jpg'
     },
     {
-      ...EXPANSION.archetypes.items[1],
+      id: 'petrol-pumps',
+      number: '02',
+      shortTitle: 'Mobility Hubs',
+      title: 'Petrol Pumps & Mobility Hubs',
+      category: 'MOBILITY HUB',
+      tagline: 'Convenience for people on the move.',
+      desc: 'Urban and highway fuel retail stations designed for rapid grab-and-go convenience.',
+      features: ['Rapid Grab & Go', 'Urban Fuel Retailing', 'Chilled Cold-Chain'],
+      image: '/assets/images/ghibli-petrol-pump.jpg',
       icon: Fuel,
-      footprint: '1,500 – 3,000 sq.ft',
-      target: 'Commuters refuelling, quick highway pit-stops, EV charge wait times',
-      feature: 'Express checkout under 2 minutes, grab-and-go deli bowls, barista coffee',
-      image: '/assets/images/hero-scenery.jpg'
     },
     {
-      ...EXPANSION.archetypes.items[2],
+      id: 'urban',
+      number: '03',
+      shortTitle: 'High Streets',
+      title: 'Urban Neighbourhoods & High Streets',
+      category: 'LOCAL HIGH STREET',
+      tagline: 'Everyday access for growing communities.',
+      desc: 'Dense residential and commercial hubs offering complete grocery and fresh bakery selections.',
+      features: ['Fresh Bakery Loaves', 'Stone Chakki Flour', 'Complete Grocery'],
+      image: '/assets/images/ghibli-store-front.jpg',
       icon: Building2,
-      footprint: '2,000 – 4,000 sq.ft',
-      target: 'Local neighbourhood families, evening stroll footfall',
-      feature: 'Fresh cold-pressed cooking oils, stone-chakki atta, daily morning sourdough',
-      image: '/assets/images/store-interior.jpg'
     },
     {
-      ...EXPANSION.archetypes.items[3],
+      id: 'townships',
+      number: '04',
+      shortTitle: 'Townships',
+      title: 'Residential Townships & Communities',
+      category: 'RESIDENTIAL MARKET',
+      tagline: 'Serving daily household requirements closer to home.',
+      desc: 'Direct-to-consumer convenience hubs serving residential communities with daily essentials.',
+      features: ['Daily Kitchen Staples', 'Neighborhood Walkability', 'Household Essentials'],
+      image: '/assets/images/ghibli-cafe.jpg',
       icon: Home,
-      footprint: '2,500 – 4,500 sq.ft',
-      target: 'Residents of gated societies and integrated luxury townships',
-      feature: '24/7 midnight grocery pantry, pure farm dairy, doorstep replenishment',
-      image: '/assets/images/empty-landscape.jpg'
     },
     {
-      ...EXPANSION.archetypes.items[4],
+      id: 'transit',
+      number: '05',
+      shortTitle: 'Transit Hubs',
+      title: 'Transit Corridors & Commuter Hubs',
+      category: 'COMMUTER CONCOURSE',
+      tagline: 'High-footfall locations serving commuters.',
+      desc: 'High-velocity outlets situated at metro stations and transit hubs for fast commuter pickup.',
+      features: ['Metro Station Concourse', 'Express Self-Checkout', 'Fresh Coffee & Sandwiches'],
+      image: '/assets/images/ghibli-transit.jpg',
       icon: Train,
-      footprint: '1,200 – 2,500 sq.ft',
-      target: 'Rapid transit passengers, metro & interchange commuters',
-      feature: 'High-speed touchless checkout, fresh snack packs, energy juices',
-      image: '/assets/images/ghibli-night.jpg'
     },
     {
-      ...EXPANSION.archetypes.items[5],
+      id: 'commercial',
+      number: '06',
+      shortTitle: 'Commercial',
+      title: 'Commercial Complexes & Mixed-Use',
+      category: 'BUSINESS DISTRICT',
+      tagline: 'Where people work, live, shop and refresh.',
+      desc: 'Modern deli formats in corporate office parks and business districts serving busy professionals.',
+      features: ['Corporate Tech Parks', 'Chef-Crafted Quick Meals', 'All-Day Refreshment'],
+      image: '/assets/images/ghibli-commercial.jpg',
       icon: Briefcase,
-      footprint: '2,500 – 5,000 sq.ft',
-      target: 'Office professionals, coworking teams, business meetings',
-      feature: 'Oak seating booths, artisanal sandwiches, premium coffee and working snacks',
-      image: '/assets/images/store-approach.jpg'
-    }
+    },
   ];
 
-  // Interactive Highway Corridor Schematic Milestones
-  const highwayMilestones = [
-    {
-      name: 'GT Road / NH-44',
-      region: 'Punjab Spine',
-      status: 'OPERATIONAL',
-      specs: 'Flagship Store · 24/7 Chakki & Hearth Bakes',
-      badge: 'HERITAGE'
-    },
-    {
-      name: 'Ambala Highway Junction',
-      region: 'Haryana North',
-      status: 'OPERATIONAL',
-      specs: 'Highway Oasis · 80,000+ Daily Vehicles',
-      badge: 'TRANSIT'
-    },
-    {
-      name: 'Sector 114 Delhi Border',
-      region: 'Dwarka Expressway',
-      status: 'Q2 2026 FIT-OUT',
-      specs: 'Prime Gateway · 150,000+ Daily Commuters',
-      badge: 'IMMEDIATE'
-    },
-    {
-      name: 'JMS Marine Square',
-      region: 'Sector 102 Artery',
-      status: 'UNDER DEVELOPMENT',
-      specs: 'Transit Hub · High Footfall Commercial',
-      badge: 'PIPELINE'
-    },
-    {
-      name: 'K.D. Square Sohna',
-      region: 'Sohna Road',
-      status: 'ACTIVE LEASE',
-      specs: 'Suburban Hub · Township Replenishment',
-      badge: 'URBAN'
-    },
-    {
-      name: 'Sector 83 Artery',
-      region: 'NH-48 New Gurgaon',
-      status: 'SITE SECURED',
-      specs: 'Residential Anchor · 24/7 Dining & Deli',
-      badge: 'EXPANSION'
-    }
+  const visionPillars = [
+    'Convenience',
+    'Freshness',
+    'Accessibility',
+    'Community',
   ];
 
-  const currentChapter = chapters.find(c => c.id === activeChapter) || chapters[1];
+  const scrollToFormats = () => {
+    const el = document.getElementById('expansion-formats-section');
+    if (el) {
+      if (window.__lenis) {
+        window.__lenis.scrollTo(el, { duration: 1 });
+      } else {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
-    <div className="bg-[#F7F4ED] text-[#202321] overflow-x-clip min-h-screen">
+    <div className="bg-[#FAF8F5] text-[#202321] min-h-screen selection:bg-[#C86B4A]/20 selection:text-[#172B3A]">
       
-      {/* ── 01. EDITORIAL MONOGRAPH HERO ── */}
-      <section className="pt-32 pb-20 px-6 bg-[#F7F4ED] text-[#202321] border-b border-[#E5D8C5] text-left relative overflow-hidden">
-        <div className="absolute inset-0 bg-grain pointer-events-none opacity-30" />
-        <div className="absolute top-0 right-1/4 w-[650px] h-[650px] rounded-full bg-[#C86B4A]/8 blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-[#172B3A]/15 text-xs font-mono tracking-widest text-[#172B3A] mb-6 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#C86B4A]" />
-            <span>05 / REGIONAL EXPANSION BLUEPRINT</span>
+      {/* ── HERO (REGIONAL CARTOGRAPHIC COMPOSITION WITH ACCURATE INDIA MAP) ── */}
+      <section
+        style={{ paddingTop: 'calc(var(--navbar-height, 72px) + 2rem)' }}
+        className="pb-12 sm:pb-16 px-6 sm:px-10 lg:px-16 border-b border-[#E5D8C5] relative overflow-hidden text-left"
+      >
+        <div className="max-w-7xl mx-auto">
+          
+          {/* Top Editorial Metadata Bar */}
+          <div className="flex items-center justify-between pb-6 sm:pb-10 text-[11px] font-mono tracking-[0.22em] text-[#C86B4A] uppercase font-semibold">
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C86B4A]" />
+              <span>OUR EXPANSION</span>
+            </span>
+            <span className="text-[#172B3A]/40 hidden sm:inline tracking-[0.25em]">
+              HARYANA &nbsp;→&nbsp; NORTH INDIA
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
-            <div className="lg:col-span-8 space-y-5">
-              <h1 className="font-serif font-black text-5xl sm:text-7xl lg:text-[5.4rem] tracking-tight leading-[0.94] text-[#172B3A]">
-                <TextReveal>Growing Across</TextReveal>
-                <span className="block italic font-bold text-[#C86B4A] mt-2">
-                  <TextReveal delay={0.12}>North India.</TextReveal>
-                </span>
-              </h1>
-              
-              <p className="font-serif text-2xl sm:text-3xl text-[#C86B4A] italic font-medium max-w-2xl">
-                "{EXPANSION.subheading}"
+          {/* Asymmetrical Grid: Typography + Accurate India Map Outline */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* Left Narrative Block */}
+            <div className="lg:col-span-6 space-y-5">
+              <div className="space-y-1">
+                <h1 className="font-serif text-4xl sm:text-5xl lg:text-[60px] font-bold text-[#172B3A] tracking-tight leading-[1.08]">
+                  Growing <br className="hidden sm:inline" />
+                  Closer to You.
+                </h1>
+                <p className="font-serif italic text-[#C86B4A] font-normal text-2xl sm:text-3xl lg:text-[38px] pt-1.5">
+                  From Haryana to North India.
+                </p>
+              </div>
+
+              <p className="text-base sm:text-lg text-[#202321]/80 font-light leading-relaxed max-w-xl">
+                Village Deli is expanding to bring modern convenience, fresh food and warm experiences to more communities across the region.
               </p>
-              
-              <p className="text-base sm:text-lg text-[#202321]/80 font-light max-w-2xl pt-1 leading-relaxed">
-                {EXPANSION.description}
-              </p>
-            </div>
 
-            {/* Live Master Metric Blocks with Card Pop */}
-            <div className="lg:col-span-4 grid grid-cols-2 gap-3 text-left">
-              <CardPop className="p-4 rounded-2xl bg-white border border-[#E5D8C5] shadow-xs">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[#C86B4A] block mb-1">
-                  HOURS ACTIVE
-                </span>
-                <span className="font-serif text-2xl sm:text-3xl font-bold text-[#172B3A] block">
-                  24 / 7
-                </span>
-                <span className="text-[11px] font-mono text-[#202321]/60">Always Open & Staffed</span>
-              </CardPop>
-
-              <CardPop className="p-4 rounded-2xl bg-white border border-[#E5D8C5] shadow-xs">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[#C86B4A] block mb-1">
-                  RETAIL FORMATS
-                </span>
-                <span className="font-serif text-2xl sm:text-3xl font-bold text-[#172B3A] block">
-                  06
-                </span>
-                <span className="text-[11px] font-mono text-[#202321]/60">Living Archetypes</span>
-              </CardPop>
-
-              <CardPop className="p-4 rounded-2xl bg-white border border-[#E5D8C5] shadow-xs flex flex-col justify-between">
-                <div>
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#C86B4A] block mb-1.5">
-                    STATE ALLIANCE
+              {/* Minimal Circle Arrow CTA */}
+              <div className="pt-1">
+                <button
+                  onClick={scrollToFormats}
+                  className="inline-flex items-center gap-3 text-xs font-mono tracking-[0.2em] uppercase font-semibold text-[#172B3A] hover:text-[#C86B4A] transition-colors cursor-pointer group"
+                >
+                  <span className="w-8 h-8 rounded-full border border-[#172B3A]/30 group-hover:border-[#C86B4A] flex items-center justify-center transition-colors">
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                   </span>
-                  <div className="flex items-center gap-2 bg-[#F7F4ED] p-1 rounded-lg w-fit mb-1.5 border border-[#E5D8C5]">
-                    <img src="/assets/images/harhith-logo.jpg" alt="HarHith Store" className="h-4.5 w-auto object-contain rounded" />
-                    <div className="h-4 w-px bg-gray-300" />
-                    <img src="/assets/images/vita-logo.jpg" alt="Vita" className="h-4.5 w-auto object-contain rounded" />
-                  </div>
-                </div>
-                <span className="text-[11px] font-mono text-[#202321]/70">HarHith + Vita Alliance</span>
-              </CardPop>
-
-              <CardPop className="p-4 rounded-2xl bg-white border border-[#E5D8C5] shadow-xs">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[#C86B4A] block mb-1">
-                  QUALITY PROMISE
-                </span>
-                <span className="font-serif text-2xl sm:text-3xl font-bold text-[#172B3A] block">
-                  100%
-                </span>
-                <span className="text-[11px] font-mono text-[#202321]/60">Live Stone-Ground</span>
-              </CardPop>
+                  <span>EXPLORE OUR EXPANSION</span>
+                </button>
+              </div>
             </div>
+
+            {/* Right Graphic: Zoomed Northern India Regional Map (Direct on background, no card) */}
+            <div className="lg:col-span-6 relative flex items-center justify-center w-full py-2">
+              <div className="w-full max-w-lg relative flex items-center justify-center">
+                
+                <svg 
+                  viewBox="160 45 390 340" 
+                  className="w-full h-auto max-h-[440px]" 
+                  preserveAspectRatio="xMidYMid meet"
+                >
+                  <defs>
+                    <filter id="hubGlow" x="-30%" y="-30%" width="160%" height="160%">
+                      <feDropShadow dx="0" dy="1" stdDeviation="3" floodColor="#C86B4A" floodOpacity="0.4" />
+                    </filter>
+                    {/* Soft gradient mask to eliminate any harsh cut at the bottom */}
+                    <linearGradient id="mapBottomFade" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
+                      <stop offset="72%" stopColor="#ffffff" stopOpacity="1" />
+                      <stop offset="94%" stopColor="#ffffff" stopOpacity="0" />
+                    </linearGradient>
+                    <mask id="mapMask">
+                      <rect x="100" y="0" width="600" height="420" fill="url(#mapBottomFade)" />
+                    </mask>
+                  </defs>
+
+                  {/* 1. Zoomed Northern India Map Outline + Concentric Influence Waves */}
+                  <g mask="url(#mapMask)">
+                    <g transform="translate(0, 1024) scale(0.1, -0.1)" fill="#F5EFEB" stroke="#D8C8B4" strokeWidth="9">
+                      <path d="M4040 10225 c-14 -8 -40 -14 -58 -15 -64 0 -119 -22 -173 -66 -57 -47 -124 -77 -199 -89 -25 -4 -89 -29 -142 -56 l-97 -49 -17 -56 c-9 -33 -30 -71 -49 -92 -31 -34 -35 -36 -121 -42 -71 -5 -104 -13 -158 -38 -83 -39 -130 -40 -211 -7 -33 14 -91 30 -130 36 -38 6 -86 19 -106 29 -46 24 -69 26 -152 16 -65 -8 -68 -10 -82 -43 -21 -50 -19 -76 10 -103 16 -15 25 -35 25 -54 0 -17 7 -40 15 -50 22 -30 18 -58 -12 -82 -27 -21 -27 -24 -16 -65 10 -38 9 -50 -8 -88 -10 -24 -19 -51 -19 -60 0 -9 28 -44 63 -77 101 -97 102 -98 156 -95 54 2 47 11 67 -89 5 -26 12 -32 57 -44 29 -8 69 -17 90 -21 43 -7 49 -28 18 -66 -15 -19 -30 -24 -84 -27 -62 -4 -67 -6 -95 -42 -17 -20 -45 -43 -63 -50 l-32 -13 5 -123 c5 -137 -1 -162 -49 -196 -17 -13 -61 -60 -97 -106 -50 -63 -66 -90 -66 -115 0 -57 -9 -71 -56 -91 -58 -24 -107 -86 -205 -257 -77 -134 -85 -141 -164 -154 -64 -11 -92 -30 -110 -78 -10 -27 -34 -58 -60 -80 -54 -45 -101 -127 -110 -190 -4 -26 -12 -50 -17 -53 -5 -3 -30 2 -54 11 -31 12 -58 15 -87 11 -23 -4 -83 -9 -134 -12 l-92 -6 -3 49 c-3 47 -4 48 -38 51 -54 4 -102 -41 -136 -128 -25 -64 -34 -75 -96 -121 -37 -28 -68 -57 -68 -63 0 -7 -9 -21 -21 -32 -12 -10 -30 -31 -40 -46 -25 -35 -12 -72 33 -91 18 -8 44 -26 58 -41 21 -23 30 -26 61 -21 31 5 39 3 52 -16 17 -24 14 -65 -9 -111 -24 -47 -17 -87 27 -160 l41 -68 54 0 c53 0 54 0 54 -30 0 -16 11 -64 25 -107 14 -43 25 -94 25 -114 0 -28 6 -39 25 -49 22 -12 24 -18 19 -49 -3 -20 -15 -44 -26 -54 -17 -14 -19 -22 -11 -39 7 -16 5 -30 -6 -50 -14 -24 -23 -28 -58 -28 -36 0 -44 4 -48 23 -6 22 -7 22 -100 13 -78 -8 -96 -13 -101 -28 -9 -28 -70 -24 -118 10 -41 28 -41 28 -281 35 l-50 2 -3 -46 c-3 -43 -5 -47 -34 -53 -17 -3 -49 -6 -73 -6 -46 0 -82 -27 -72 -55 8 -20 122 -20 157 0 32 18 40 18 40 1 0 -8 -17 -20 -37 -27 -21 -6 -44 -16 -50 -22 -24 -18 -14 -76 27 -157 35 -69 44 -80 66 -80 15 0 48 -16 73 -35 56 -40 109 -54 211 -53 69 1 78 3 107 31 28 26 37 29 77 25 25 -3 49 -1 55 5 7 7 12 5 17 -7 10 -27 -46 -107 -104 -147 -38 -27 -65 -38 -106 -42 -31 -3 -66 -13 -78 -21 -35 -25 -95 -20 -130 9 -16 14 -35 25 -42 25 -18 0 -36 -21 -36 -42 0 -25 74 -143 125 -198 22 -25 57 -70 78 -100 20 -30 95 -123 166 -206 116 -135 134 -152 168 -157 26 -5 45 -2 62 9 17 12 37 15 73 11 41 -5 61 -1 126 27 42 19 87 37 99 40 12 4 31 18 42 32 13 16 29 24 51 24 38 0 69 32 70 73 0 19 12 38 40 63 47 43 51 76 20 147 l-21 46 27 63 c24 59 38 77 57 78 4 0 7 -6 7 -12 0 -28 17 -40 37 -30 11 6 25 7 33 2 11 -7 7 -15 -19 -39 -28 -26 -32 -36 -26 -59 3 -15 7 -43 9 -62 1 -19 8 -46 15 -59 11 -20 19 -23 49 -18 21 3 45 8 56 13 14 5 17 3 14 -7 -5 -14 -26 -23 -80 -34 -21 -4 -34 -18 -53 -55 -31 -62 -32 -87 -1 -101 21 -10 25 -20 31 -83 3 -39 13 -82 22 -94 18 -29 11 -62 -22 -114 -14 -20 -29 -56 -35 -80 -21 -93 -3 -256 34 -296 18 -20 17 -22 -9 -57 -27 -34 -27 -36 -10 -55 10 -11 31 -20 47 -20 25 0 28 -4 28 -31 0 -16 -9 -47 -19 -67 -39 -76 -41 -97 -15 -136 20 -29 23 -40 14 -56 -9 -17 -7 -28 9 -54 15 -24 21 -50 21 -95 0 -54 4 -68 35 -113 35 -50 40 -76 15 -70 -7 1 -9 -4 -6 -15 19 -62 27 -127 36 -272 l10 -164 75 -115 c59 -90 75 -122 75 -151 0 -28 9 -48 40 -85 22 -26 40 -59 40 -71 0 -15 11 -32 30 -45 38 -27 86 -128 95 -200 4 -30 18 -74 31 -97 18 -31 24 -57 24 -100 0 -32 5 -76 10 -98 6 -22 15 -74 20 -115 7 -49 22 -99 44 -145 19 -38 41 -95 50 -125 11 -37 48 -101 116 -199 55 -79 100 -148 100 -154 0 -5 15 -44 34 -87 19 -42 37 -99 41 -126 10 -74 25 -114 62 -169 20 -30 33 -62 33 -81 0 -25 12 -42 59 -87 70 -67 104 -142 56 -124 -8 4 -15 18 -15 32 0 20 -5 25 -25 25 -25 0 -33 -14 -15 -25 6 -3 10 -35 10 -71 0 -57 4 -71 31 -110 17 -25 42 -73 56 -107 31 -77 123 -175 207 -220 33 -18 68 -45 80 -64 27 -42 49 -41 97 2 22 19 49 35 61 35 13 0 43 23 80 61 53 56 58 65 58 107 0 34 8 60 32 99 36 59 58 71 161 83 41 5 76 15 87 25 21 19 72 15 122 -11 43 -22 68 -18 68 11 0 21 -8 27 -66 45 -36 11 -72 20 -80 20 -16 0 -34 31 -34 58 0 10 15 39 33 63 44 57 107 171 107 192 0 13 10 16 53 16 28 -1 59 0 67 0 8 1 27 -1 42 -5 24 -5 29 -2 44 30 15 31 16 44 6 98 -9 44 -9 89 -3 147 8 77 7 88 -13 125 -27 52 -29 193 -4 241 9 17 19 48 23 69 5 26 15 41 32 49 26 12 61 73 99 174 19 50 24 83 24 153 0 88 0 89 -34 117 -18 15 -39 38 -45 51 -15 28 -7 114 16 187 19 58 18 121 -2 170 -18 41 -19 137 -4 203 6 26 27 83 46 128 39 87 60 106 136 119 l39 6 -7 75 c-5 50 -4 74 3 74 20 0 42 -44 42 -85 0 -46 14 -65 45 -65 28 0 46 21 84 96 44 86 46 88 146 79 l85 -7 64 52 c64 50 116 104 116 120 0 4 -13 13 -30 20 -20 8 -30 19 -30 34 0 34 56 104 90 111 16 3 39 14 52 24 13 10 57 35 98 55 113 56 136 75 189 151 53 76 137 153 189 174 22 9 50 39 87 92 31 43 74 92 98 111 53 41 54 42 62 96 4 27 20 61 42 90 31 41 43 49 92 60 62 14 95 37 73 51 -7 4 -24 6 -38 3 -19 -3 -24 0 -24 15 0 48 80 74 118 40 24 -22 54 -21 100 2 20 10 53 22 72 26 77 16 119 49 194 148 25 34 36 59 36 83 0 28 6 38 30 52 37 21 38 45 4 77 l-27 25 13 92 c10 79 17 100 46 139 35 48 59 59 131 59 47 0 148 62 169 103 10 17 20 74 24 132 8 89 13 108 39 150 16 26 39 54 49 61 18 12 20 11 24 -10 6 -27 -5 -50 -38 -86 -30 -32 -45 -156 -24 -195 8 -16 11 -43 7 -79 -6 -62 8 -83 31 -48 8 12 25 22 38 22 18 0 23 6 26 31 4 39 29 59 52 40 11 -9 16 -30 16 -62 0 -52 19 -67 39 -31 7 12 22 17 53 17 36 0 43 3 46 21 2 16 -5 23 -30 30 -27 8 -34 15 -36 42 -3 28 0 32 21 32 23 0 24 3 20 53 -2 28 -9 74 -14 101 -5 27 -7 76 -3 108 l7 58 -32 0 c-34 0 -35 2 -32 71 2 40 0 46 -23 57 -15 6 -26 20 -26 31 0 10 -12 45 -27 77 -24 52 -25 62 -15 101 7 24 12 72 12 106 l0 63 -55 27 c-31 15 -68 27 -84 27 -48 0 -81 71 -46 100 8 7 15 23 15 36 0 20 5 24 29 24 34 0 48 15 53 55 l3 30 66 -3 c50 -2 69 1 79 13 11 13 9 20 -14 44 -15 15 -30 41 -35 57 -6 25 -13 29 -49 32 -29 2 -43 8 -47 21 -11 36 -53 71 -84 71 -40 0 -45 12 -21 52 11 18 20 41 20 50 0 9 18 29 40 45 42 30 51 63 29 105 -6 11 -8 22 -5 25 10 10 92 -27 116 -52 28 -30 70 -34 70 -6 0 35 46 14 66 -31 21 -46 67 -88 97 -88 11 0 31 10 44 22 14 13 27 18 33 12 5 -5 21 -65 35 -134 24 -118 28 -127 62 -156 30 -27 49 -33 122 -44 87 -12 420 -9 513 5 43 6 51 4 108 -35 l61 -41 -29 -34 c-22 -24 -31 -48 -36 -88 -7 -51 -11 -59 -74 -119 -37 -35 -85 -72 -107 -82 -46 -21 -92 -72 -105 -115 -6 -23 -3 -36 16 -65 20 -29 24 -47 24 -106 0 -86 12 -115 40 -100 11 6 20 20 20 30 0 31 18 24 25 -10 7 -32 30 -39 66 -20 16 9 19 22 19 77 0 64 1 67 40 104 26 25 40 47 40 64 0 23 3 25 50 25 61 0 65 -5 86 -142 9 -57 31 -143 49 -193 18 -49 40 -116 49 -148 10 -35 24 -60 34 -64 9 -4 34 -17 56 -31 44 -27 62 -19 47 20 -8 21 -5 32 14 58 22 30 23 34 9 72 -8 24 -14 78 -14 130 0 78 3 92 20 106 11 10 24 38 29 65 5 26 17 57 27 68 21 23 26 120 10 173 -8 27 -7 29 14 23 13 -3 36 1 53 9 28 15 30 14 56 -10 23 -22 31 -24 56 -17 68 20 67 19 60 80 -6 52 -3 61 35 136 23 44 58 97 77 119 33 36 35 42 30 89 -5 35 -14 59 -32 77 -40 41 -33 69 27 110 29 19 60 49 69 65 26 44 40 148 33 245 -6 106 6 137 53 132 26 -3 36 3 58 32 15 20 36 36 47 36 13 0 24 11 31 29 6 17 21 32 33 35 12 3 46 32 75 63 53 57 55 58 91 49 31 -8 41 -6 58 9 19 17 25 18 53 6 46 -19 94 -25 101 -12 4 6 -13 33 -38 59 -26 27 -46 56 -46 64 0 9 21 33 48 54 75 60 81 71 79 141 -1 59 -3 63 -27 68 -15 3 -42 5 -61 4 -19 -1 -52 7 -76 19 -53 27 -85 28 -108 2 -10 -11 -26 -20 -37 -20 -15 0 -18 8 -18 57 0 50 4 61 31 89 l30 31 -38 32 c-25 21 -46 31 -60 28 -13 -2 -29 3 -40 15 -18 20 -11 34 21 40 37 6 26 23 -29 46 -76 31 -104 28 -158 -13 -29 -22 -57 -35 -76 -35 -23 0 -31 -5 -31 -18 0 -11 -8 -26 -17 -35 -25 -21 -118 -5 -153 28 -45 42 -76 41 -98 -2 -7 -12 -32 -29 -56 -38 -34 -13 -45 -23 -50 -45 -4 -22 -12 -29 -32 -32 -20 -2 -30 -11 -38 -33 -23 -62 -35 -75 -72 -75 -70 0 -154 -52 -154 -96 0 -45 -20 -69 -70 -87 -27 -10 -60 -30 -73 -45 -14 -15 -38 -42 -53 -59 -25 -28 -39 -34 -104 -44 -49 -7 -82 -18 -96 -31 -19 -17 -29 -18 -65 -11 -38 7 -44 12 -47 36 -3 21 -11 29 -41 37 -21 6 -44 17 -51 25 -15 18 -36 19 -47 2 -4 -7 -20 -20 -35 -29 -23 -15 -28 -15 -38 -3 -16 19 -60 19 -96 0 -27 -14 -29 -13 -33 3 -4 22 -31 52 -46 52 -7 0 -20 9 -29 19 -30 33 -79 35 -132 7 -26 -14 -69 -30 -96 -37 -44 -12 -52 -19 -78 -65 -19 -33 -30 -66 -30 -90 0 -36 -5 -43 -67 -91 -86 -66 -96 -61 -92 51 2 58 -1 87 -11 104 -17 26 -55 29 -86 8 -11 -8 -43 -16 -69 -18 l-49 -3 -13 -65 c-7 -36 -20 -102 -29 -148 l-15 -83 25 -30 c31 -36 33 -75 6 -109 -12 -16 -20 -41 -20 -67 0 -42 0 -42 -26 -31 -20 9 -27 9 -34 -2 -5 -8 -30 -13 -68 -14 -33 -1 -67 -7 -75 -15 -20 -16 -57 -6 -75 20 -16 23 -58 25 -66 4 -7 -20 -23 -19 -92 9 -71 28 -217 51 -273 41 -39 -6 -40 -6 -49 27 -10 40 -40 48 -88 22 -33 -18 -34 -18 -58 5 -18 17 -32 22 -49 17 -18 -4 -31 2 -53 25 -86 91 -237 189 -291 189 -7 0 -27 -10 -44 -22 -26 -19 -33 -21 -62 -10 -45 16 -56 15 -101 -9 l-38 -20 -54 25 c-30 14 -70 26 -89 26 -26 0 -38 7 -55 31 -21 28 -26 30 -77 28 -53 -3 -57 -1 -110 45 -49 44 -57 47 -79 37 -42 -19 -60 -13 -120 37 -45 38 -60 58 -68 91 -10 39 -15 44 -71 66 -33 14 -73 34 -89 46 -23 17 -37 20 -76 16 -40 -5 -50 -2 -67 16 -10 12 -35 34 -54 49 l-34 28 28 21 c28 21 28 23 21 98 -6 73 -5 78 20 108 14 17 26 40 26 52 0 14 12 26 37 38 24 12 44 31 54 53 10 19 29 46 43 59 54 51 28 84 -123 156 l-62 29 2 41 c3 51 -5 65 -38 65 -15 0 -37 10 -50 22 -16 15 -42 24 -86 29 -53 6 -66 12 -91 41 -15 18 -35 49 -43 68 -31 71 -65 88 -104 49 -27 -27 -33 -20 -20 29 9 30 8 47 -3 73 -8 19 -17 53 -21 77 -5 28 -13 46 -25 50 -25 10 -68 74 -75 115 -5 23 -1 45 9 65 30 57 66 59 95 5 6 -13 30 -32 53 -44 l41 -21 71 50 c72 51 89 79 70 120 -4 10 -12 35 -18 56 -10 37 -15 41 -59 52 -56 14 -87 38 -87 67 0 12 -10 32 -22 45 -19 19 -23 34 -22 79 2 49 5 57 35 83 25 20 49 29 87 33 30 3 56 8 58 10 3 2 11 37 18 76 16 81 36 111 76 111 30 0 80 34 80 55 0 7 16 44 35 81 19 37 35 81 35 98 0 17 9 45 20 61 26 39 26 75 1 75 -10 0 -38 -7 -61 -15 -23 -8 -44 -15 -45 -15 -1 0 -8 13 -15 29 -8 21 -21 32 -43 37 -43 9 -67 32 -67 64 0 15 -6 33 -14 39 -23 19 -79 23 -106 6z" />
+                    </g>
+
+                    {/* Concentric Influence Waves (Dotted Orange) */}
+                    <circle 
+                      cx="335" 
+                      cy="255" 
+                      r="125" 
+                      fill="#C86B4A" 
+                      fillOpacity="0.02" 
+                      stroke="#C86B4A" 
+                      strokeWidth="1.2" 
+                      strokeDasharray="4 4" 
+                      strokeOpacity="0.25" 
+                    />
+                    <circle 
+                      cx="335" 
+                      cy="255" 
+                      r="80" 
+                      fill="#C86B4A" 
+                      fillOpacity="0.04" 
+                      stroke="#C86B4A" 
+                      strokeWidth="1.4" 
+                      strokeDasharray="4 4" 
+                      strokeOpacity="0.35" 
+                    />
+                    <circle 
+                      cx="335" 
+                      cy="255" 
+                      r="40" 
+                      fill="#C86B4A" 
+                      fillOpacity="0.07" 
+                      stroke="#C86B4A" 
+                      strokeWidth="1.5" 
+                      strokeDasharray="3 3" 
+                      strokeOpacity="0.5" 
+                    />
+                  </g>
+
+                  {/* 3. Dotted Orange Expansion Corridors Radiating from Haryana Origin */}
+                  {/* Primary Corridor: Haryana (335, 255) -> Delhi-NCR (365, 270) -> Western UP (415, 288) */}
+                  <path 
+                    d="M 335 255 Q 370 270, 415 288" 
+                    stroke="#C86B4A" 
+                    strokeWidth="3.2" 
+                    strokeLinecap="round" 
+                    strokeDasharray="5 4" 
+                  />
+                  
+                  {/* Secondary Corridor: Haryana -> Punjab / Chandigarh (315, 175) */}
+                  <path 
+                    d="M 335 255 Q 322 215, 315 175" 
+                    stroke="#C86B4A" 
+                    strokeWidth="2.75" 
+                    strokeLinecap="round" 
+                    strokeDasharray="4 4" 
+                    opacity="0.9" 
+                  />
+
+                  {/* Tertiary Corridor: Haryana -> Northern Rajasthan (270, 315) */}
+                  <path 
+                    d="M 335 255 Q 300 285, 270 315" 
+                    stroke="#C86B4A" 
+                    strokeWidth="2.5" 
+                    strokeLinecap="round" 
+                    strokeDasharray="4 4" 
+                    opacity="0.85" 
+                  />
+
+                  {/* Quaternary Corridor: Haryana -> Himachal Foothills (380, 160) */}
+                  <path 
+                    d="M 335 255 Q 360 205, 380 160" 
+                    stroke="#C86B4A" 
+                    strokeWidth="2.2" 
+                    strokeLinecap="round" 
+                    strokeDasharray="4 4" 
+                    opacity="0.8" 
+                  />
+
+                  {/* 4. Connected Waypoint Nodes */}
+                  {/* Delhi-NCR Hub Node */}
+                  <circle cx="365" cy="270" r="5.5" fill="#172B3A" />
+                  <circle cx="365" cy="270" r="9.5" stroke="#172B3A" strokeWidth="1" opacity="0.35" />
+
+                  {/* Western UP Node */}
+                  <circle cx="415" cy="288" r="5" fill="#172B3A" />
+
+                  {/* Punjab / Chandigarh Node */}
+                  <circle cx="315" cy="175" r="5" fill="#172B3A" />
+
+                  {/* Northern Rajasthan Node */}
+                  <circle cx="270" cy="315" r="4.5" fill="#172B3A" opacity="0.8" />
+
+                  {/* Himachal Foothills Node */}
+                  <circle cx="380" cy="160" r="4.5" fill="#172B3A" opacity="0.8" />
+
+                  {/* 5. Haryana Origin Hub (Pulsing Center) */}
+                  <circle cx="335" cy="255" r="20" fill="none" stroke="#C86B4A" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.5" />
+                  <circle cx="335" cy="255" r="11" fill="#C86B4A" fillOpacity="0.25" />
+                  <circle cx="335" cy="255" r="6.5" fill="#C86B4A" filter="url(#hubGlow)" />
+                  <circle cx="335" cy="255" r="2.5" fill="#FAF8F5" />
+
+                  {/* 6. Precision Editorial Badges */}
+                  {/* Haryana Label Badge */}
+                  <g transform="translate(225, 243)">
+                    <rect x="-6" y="-12" width="96" height="24" rx="5" fill="#FAF8F5" stroke="#C86B4A" strokeWidth="1.2" />
+                    <circle cx="5" cy="0" r="3" fill="#C86B4A" />
+                    <text x="15" y="4" fontSize="10.5" fontWeight="700" fill="#C86B4A" letterSpacing="1.5" fontFamily="ui-monospace, monospace">HARYANA</text>
+                  </g>
+
+                  {/* North India Label Badge */}
+                  <g transform="translate(425, 273)">
+                    <rect x="-6" y="-12" width="118" height="24" rx="5" fill="#172B3A" />
+                    <circle cx="6" cy="0" r="3" fill="#FAF8F5" />
+                    <text x="16" y="4" fontSize="10.5" fontWeight="700" fill="#FAF8F5" letterSpacing="1.5" fontFamily="ui-monospace, monospace">NORTH INDIA</text>
+                  </g>
+
+                  {/* Minimalist Compass Indicator */}
+                  <g transform="translate(510, 95)" opacity="0.4">
+                    <circle cx="0" cy="0" r="15" fill="none" stroke="#172B3A" strokeWidth="0.75" strokeDasharray="2 2" />
+                    <line x1="0" y1="-11" x2="0" y2="11" stroke="#172B3A" strokeWidth="0.75" />
+                    <line x1="-11" y1="0" x2="11" y2="0" stroke="#172B3A" strokeWidth="0.75" />
+                    <polygon points="0,-11 -2.5,-5 2.5,-5" fill="#C86B4A" />
+                    <text x="-3.5" y="-14" fontSize="8" fontWeight="bold" fill="#C86B4A" fontFamily="ui-monospace, monospace">N</text>
+                  </g>
+                </svg>
+
+              </div>
+            </div>
+
           </div>
+
         </div>
       </section>
 
-      {/* ── 02. KINETIC DUAL-RIBBON MARQUEE TICKER ── */}
-      <div className="border-y border-[#172B3A]/20 select-none overflow-hidden">
-        {/* Ribbon 1: Moving Forward */}
-        <div className="py-3 bg-[#C86B4A] text-[#172B3A] overflow-hidden whitespace-nowrap">
-          <div ref={tickerRef} className="inline-block will-change-transform">
-            {[
-              'DWARKA EXPRESSWAY CORRIDOR',
-              'PUNJAB GRAND TRUNK HERITAGE',
-              'SOHNA ROAD ARTERIAL',
-              'HARHITH + VITA ALLIANCE',
-              'NH-48 TOWNSHIP SPINE',
-              '24/7 ROADSIDE SANCTUARY',
-              'DWARKA EXPRESSWAY CORRIDOR',
-              'PUNJAB GRAND TRUNK HERITAGE',
-              'SOHNA ROAD ARTERIAL',
-            ].map((item, idx) => (
-              <span key={idx} className="mx-6 inline-flex items-center gap-6 font-serif font-black text-xl sm:text-2xl tracking-wider">
-                <span>{item}</span>
-                <span className="text-white/60">✦</span>
-              </span>
-            ))}
-          </div>
-        </div>
 
-        {/* Ribbon 2: Moving Reverse with High-Precision Coordinates & Nodes */}
-        <div className="py-2.5 bg-[#172B3A] text-[#E5D8C5] overflow-hidden whitespace-nowrap border-t border-white/10">
-          <div ref={reverseTickerRef} className="inline-block will-change-transform">
-            {[
-              'SECTOR 114 DELHI BORDER FLAGSHIP',
-              'AMBALA HIGHWAY OASIS',
-              'K.D. SQUARE SOHNA',
-              'JMS MARINE SQUARE SEC 102',
-              'SECTOR 83 TOWNSHIP ANCHOR',
-              'LIVE STONE CHAKKI MILLING',
-              'SECTOR 114 DELHI BORDER FLAGSHIP',
-              'AMBALA HIGHWAY OASIS',
-            ].map((item, idx) => (
-              <span key={idx} className="mx-6 inline-flex items-center gap-6 font-mono text-xs uppercase tracking-widest text-[#E5D8C5]/80">
-                <span>{item}</span>
-                <span className="text-[#C86B4A]">✦</span>
+      {/* ── STRATEGIC COLLABORATION (HARHITH × VITA) ── */}
+      <section className="py-12 sm:py-16 px-6 sm:px-10 lg:px-16 border-b border-[#E5D8C5] text-left">
+        <div className="max-w-7xl mx-auto">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+            
+            {/* Left Headline & Description */}
+            <div className="lg:col-span-7 space-y-3">
+              <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#C86B4A] font-semibold flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C86B4A]" />
+                <span>STRATEGIC COLLABORATION</span>
               </span>
-            ))}
-          </div>
-        </div>
-      </div>
 
-      {/* ── 03. STRATEGIC REGIONAL GROWTH TRILOGY (INTERACTIVE CHAPTER MONOGRAPH) ── */}
-      <section className="py-24 max-w-7xl mx-auto px-6 text-left border-b border-[#E5D8C5]">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
-          <div className="max-w-2xl space-y-3">
-            <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C86B4A] font-bold">
-              <Compass className="w-3.5 h-3.5" />
-              <span>THE EXPANSION CHAPTERS</span>
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#172B3A] tracking-tight leading-tight">
+                A Stronger Foundation.
+              </h2>
+
+              <p className="text-sm sm:text-base text-[#202321]/80 font-light leading-relaxed max-w-xl">
+                In partnership with Haryana HarHith and Vita, we are creating new opportunities for modern retail, better infrastructure and stronger communities.
+              </p>
             </div>
-            <h2 className="font-serif text-4xl sm:text-6xl font-bold tracking-tight text-[#172B3A] leading-tight">
-              Three Regional Horizons
-            </h2>
-            <p className="text-base text-[#202321]/75 font-light leading-relaxed">
-              From our founding Grand Trunk roots in Punjab to Haryana\'s 2026 urban arteries, leading into a connected North Indian highway network.
-            </p>
+
+            {/* Right Partnership Branding: HarHith × Vita */}
+            <div className="lg:col-span-5 flex flex-col items-start lg:items-end justify-center space-y-3">
+              <div className="flex items-center gap-5 sm:gap-6 p-4 sm:p-5 rounded-2xl bg-white border border-[#E5D8C5] shadow-xs">
+                
+                {/* HarHith Identity */}
+                <div className="flex items-center gap-2.5">
+                  <img 
+                    src="/assets/images/harhith-logo.jpg" 
+                    alt="HarHith Haryana" 
+                    className="h-8 sm:h-9 w-auto object-contain" 
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* Refined Multiplication Symbol */}
+                <span className="text-[#C86B4A] font-light text-xl select-none">
+                  ×
+                </span>
+
+                {/* Vita Identity */}
+                <div className="flex items-center gap-2.5">
+                  <img 
+                    src="/assets/images/vita-logo.jpg" 
+                    alt="Vita Dairy" 
+                    className="h-8 sm:h-9 w-auto object-contain" 
+                    loading="lazy"
+                  />
+                </div>
+
+              </div>
+
+              {/* Subtitle Monospace Line */}
+              <div className="text-[10px] font-mono tracking-[0.25em] uppercase text-[#172B3A]/60 font-semibold px-2">
+                PEOPLE &nbsp;×&nbsp; PROGRESS &nbsp;×&nbsp; POSSIBILITY
+              </div>
+            </div>
+
           </div>
 
-          {/* Chapter Selector Tabs (Hover & Click Enabled) */}
-          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-full bg-white border border-[#E5D8C5] shadow-xs">
-            {chapters.map((ch) => {
-              const isActive = activeChapter === ch.id;
+        </div>
+      </section>
+
+
+      {/* ── EXPANSION FORMATS (EXPANDABLE EDITORIAL CARDS) ── */}
+      <section 
+        id="expansion-formats-section"
+        className="py-14 sm:py-20 px-6 sm:px-10 lg:px-16 border-b border-[#E5D8C5] text-left overflow-hidden"
+      >
+        <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10">
+          
+          {/* Section Header Row */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-end justify-between">
+            <div className="lg:col-span-7 space-y-2">
+              <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#C86B4A] font-semibold flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C86B4A]" />
+                <span>EXPANSION FORMATS</span>
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-[44px] font-bold text-[#172B3A] tracking-tight leading-[1.12]">
+                Many Places. One Experience.
+              </h2>
+            </div>
+
+            <div className="lg:col-span-5 text-left lg:text-right">
+              <p className="text-xs sm:text-sm text-[#202321]/70 font-light leading-relaxed max-w-sm ml-auto">
+                Village Deli is designed to grow across multiple formats, bringing convenience to wherever people are.
+              </p>
+            </div>
+          </div>
+
+          {/* Quick-Nav Pill Bar (Interactive Format Switcher) */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+            {formats.map((fmt, idx) => {
+              const isActive = activeFormat === idx;
               return (
                 <button
-                  key={ch.id}
-                  onMouseEnter={() => setActiveChapter(ch.id)}
-                  onClick={() => setActiveChapter(ch.id)}
-                  className={'px-4 py-2 rounded-full text-xs font-mono font-bold transition-all duration-300 flex items-center gap-2 cursor-pointer ' +
-                    (isActive
-                      ? 'bg-[#172B3A] text-white shadow-md scale-105'
-                      : 'text-[#172B3A]/70 hover:text-[#172B3A] hover:bg-[#F7F4ED]')}
+                  key={fmt.id}
+                  onClick={() => setActiveFormat(idx)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all duration-300 whitespace-nowrap flex items-center gap-2 cursor-pointer border ${
+                    isActive
+                      ? 'bg-[#172B3A] text-white border-[#172B3A] shadow-xs'
+                      : 'bg-white/70 text-[#172B3A]/70 border-[#E5D8C5] hover:border-[#C86B4A] hover:text-[#172B3A] hover:bg-white'
+                  }`}
                 >
-                  <span className={isActive ? 'text-[#C86B4A]' : 'text-[#202321]/40'}>
-                    {ch.num}.
-                  </span>
-                  <span>{ch.title}</span>
+                  <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-[#C86B4A]' : 'bg-[#172B3A]/20'}`} />
+                  <span className="font-semibold">{fmt.number}</span>
+                  <span>{fmt.shortTitle}</span>
                 </button>
               );
             })}
           </div>
-        </div>
 
-        {/* Master Active Chapter Showcase */}
-        <div 
-          ref={chapterContentRef}
-          className="rounded-[36px] overflow-hidden border border-[#172B3A]/15 bg-white shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-0"
-        >
-          {/* Left Column: Editorial Narrative & Node Verification */}
-          <div className="lg:col-span-7 p-8 sm:p-14 flex flex-col justify-between space-y-8">
-            <div className="space-y-4">
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#C86B4A] px-2.5 py-1 rounded-full bg-[#C86B4A]/10 border border-[#C86B4A]/30">
-                  {currentChapter.badge}
-                </span>
-                <span className="text-[#172B3A]/30">•</span>
-                <span className="text-xs font-mono text-[#202321]/60 uppercase tracking-wider">
-                  {currentChapter.corridor}
-                </span>
-              </div>
+          {/* ── DESKTOP EXPANDABLE CARDS (HORIZONTAL ACCORDION >= 1024px) ── */}
+          <div className="hidden lg:flex w-full h-[520px] gap-3.5">
+            {formats.map((fmt, idx) => {
+              const isExpanded = activeFormat === idx;
+              const IconComp = fmt.icon;
 
-              <h3 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-[#172B3A] leading-tight">
-                {currentChapter.title}
-              </h3>
+              return (
+                <div
+                  key={fmt.id}
+                  onClick={() => setActiveFormat(idx)}
+                  onMouseEnter={() => setActiveFormat(idx)}
+                  className={`relative rounded-2xl overflow-hidden cursor-pointer border transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] select-none group ${
+                    isExpanded
+                      ? 'flex-[4.2] border-[#C86B4A] shadow-xl'
+                      : 'flex-1 min-w-[78px] border-[#E5D8C5] hover:border-[#C86B4A]/60'
+                  }`}
+                >
+                  {/* Background Image with Cinematic Transitions */}
+                  <img
+                    src={fmt.image}
+                    alt={fmt.title}
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out ${
+                      isExpanded
+                        ? 'scale-100 filter-none opacity-100'
+                        : 'scale-110 grayscale-[25%] opacity-35 group-hover:opacity-50'
+                    }`}
+                  />
 
-              <p className="font-serif text-xl sm:text-2xl text-[#C86B4A] italic font-medium">
-                "{currentChapter.subtitle}"
-              </p>
+                  {/* Gradient Scrim */}
+                  <div
+                    className={`absolute inset-0 transition-opacity duration-700 ${
+                      isExpanded
+                        ? 'bg-gradient-to-t from-[#172B3A] via-[#172B3A]/75 via-45% to-black/25'
+                        : 'bg-[#172B3A]/85 group-hover:bg-[#172B3A]/75'
+                    }`}
+                  />
 
-              <p className="text-base text-[#202321]/80 font-light leading-relaxed">
-                {currentChapter.description}
-              </p>
-            </div>
+                  {/* Expanded Card Interior */}
+                  {isExpanded ? (
+                    <div className="relative h-full flex flex-col justify-between p-7 sm:p-8 z-10 text-white">
+                      {/* Top Metadata Bar */}
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-[11px] font-mono tracking-widest uppercase font-semibold">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#C86B4A] animate-pulse" />
+                          <span>FORMAT {fmt.number} // {fmt.category}</span>
+                        </div>
+                        <span className="hidden xl:inline text-[11px] font-mono tracking-widest text-[#E5D8C5] uppercase font-medium bg-black/30 px-3.5 py-1 rounded-full border border-white/10">
+                          {fmt.tagline}
+                        </span>
+                      </div>
 
-            {/* Verified Store Anchors Grid */}
-            <div className="space-y-3 pt-6 border-t border-[#172B3A]/10">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono uppercase tracking-widest text-[#172B3A] font-bold block">
-                  Key Corridor Anchors & Nodes
-                </span>
-                <span className="text-[11px] font-mono text-[#202321]/50">
-                  Verified Locations
-                </span>
-              </div>
+                      {/* Bottom Editorial Content */}
+                      <div className="space-y-4 max-w-2xl">
+                        <div className="flex items-center gap-3.5">
+                          <div className="w-11 h-11 rounded-xl bg-[#C86B4A] text-white flex items-center justify-center shadow-lg shrink-0">
+                            <IconComp className="w-5 h-5" />
+                          </div>
+                          <h3 className="font-serif text-3xl xl:text-4xl font-bold text-white tracking-tight leading-tight">
+                            {fmt.title}
+                          </h3>
+                        </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {currentChapter.nodes.map((node, nIdx) => (
-                  <div 
-                    key={nIdx} 
-                    className="p-3.5 rounded-xl bg-[#F7F4ED]/70 border border-[#E5D8C5] hover:border-[#C86B4A]/50 transition-colors group"
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <CheckCircle2 className="w-4 h-4 text-[#C86B4A] shrink-0" />
-                      <span className="font-serif text-sm font-bold text-[#172B3A] group-hover:text-[#C86B4A] transition-colors">
-                        {node.name}
+                        <p className="text-base text-white/90 font-light leading-relaxed">
+                          {fmt.desc}
+                        </p>
+
+                        {/* Feature Badges */}
+                        <div className="flex flex-wrap gap-2 pt-1">
+                          {fmt.features.map((feature) => (
+                            <span
+                              key={feature}
+                              className="px-3 py-1 rounded-lg bg-white/12 backdrop-blur-sm border border-white/20 text-xs text-[#FAF8F5] font-mono tracking-wide flex items-center gap-1.5"
+                            >
+                              <span className="w-1 h-1 rounded-full bg-[#C86B4A]" />
+                              <span>{feature}</span>
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Collapsed Spine */
+                    <div className="relative h-full flex flex-col justify-between items-center py-7 px-2 z-10 text-white">
+                      {/* Number */}
+                      <span className="font-mono text-xs tracking-widest text-[#C86B4A] font-bold">
+                        {fmt.number}
+                      </span>
+
+                      {/* Center Icon */}
+                      <div className="w-9 h-9 rounded-full border border-white/20 text-white/80 flex items-center justify-center group-hover:border-[#C86B4A] group-hover:text-[#C86B4A] transition-colors">
+                        <IconComp className="w-4 h-4" />
+                      </div>
+
+                      {/* Rotated Vertical Title */}
+                      <span className="text-xs font-mono tracking-[0.22em] uppercase font-semibold text-white/70 [writing-mode:vertical-rl] rotate-180 select-none pb-2 group-hover:text-white transition-colors">
+                        {fmt.shortTitle}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] font-mono text-[#202321]/60 pl-6">
-                      <span>{node.role}</span>
-                      <span className="text-[#C86B4A] font-bold">{node.status}</span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* ── MOBILE & TABLET EXPANDABLE ACCORDION (< 1024px) ── */}
+          <div className="lg:hidden space-y-3">
+            {formats.map((fmt, idx) => {
+              const isExpanded = activeFormat === idx;
+              const IconComp = fmt.icon;
+
+              return (
+                <div
+                  key={fmt.id}
+                  className="rounded-2xl border border-[#E5D8C5] bg-white overflow-hidden shadow-xs transition-all duration-300"
+                >
+                  {/* Card Header (Clickable Trigger) */}
+                  <button
+                    onClick={() => setActiveFormat(isExpanded ? -1 : idx)}
+                    className="w-full p-4 sm:p-5 flex items-center justify-between text-left cursor-pointer group"
+                  >
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <span className="font-mono text-xs font-bold text-[#C86B4A] tracking-wider">
+                        {fmt.number}
+                      </span>
+                      <div className={`p-2 rounded-lg border transition-colors ${
+                        isExpanded ? 'border-[#C86B4A] text-[#C86B4A] bg-[#C86B4A]/5' : 'border-[#E5D8C5] text-[#172B3A]'
+                      }`}>
+                        <IconComp className="w-4 h-4" />
+                      </div>
+                      <h3 className={`font-serif text-base sm:text-lg font-bold transition-colors ${
+                        isExpanded ? 'text-[#C86B4A]' : 'text-[#172B3A]'
+                      }`}>
+                        {fmt.title}
+                      </h3>
                     </div>
-                  </div>
+
+                    <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all ${
+                      isExpanded
+                        ? 'border-[#C86B4A] bg-[#C86B4A] text-white rotate-45'
+                        : 'border-[#E5D8C5] text-[#172B3A] group-hover:border-[#C86B4A]'
+                    }`}>
+                      <Plus className="w-4 h-4 transition-transform duration-300" />
+                    </div>
+                  </button>
+
+                  {/* Expandable Body */}
+                  {isExpanded && (
+                    <div className="border-t border-[#E5D8C5] animate-in fade-in slide-in-from-top-2 duration-300">
+                      {/* Image Banner */}
+                      <div className="h-44 sm:h-52 w-full relative overflow-hidden">
+                        <img
+                          src={fmt.image}
+                          alt={fmt.title}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#172B3A]/90 via-[#172B3A]/40 to-transparent" />
+                        <div className="absolute bottom-3 left-4 right-4 text-white">
+                          <span className="text-[10px] font-mono tracking-widest uppercase text-[#C86B4A] font-semibold block mb-1">
+                            {fmt.category}
+                          </span>
+                          <p className="text-xs text-white/90 font-light line-clamp-2">
+                            {fmt.tagline}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Body Description & Tags */}
+                      <div className="p-5 space-y-3 bg-[#FAF8F5]">
+                        <p className="text-xs sm:text-sm text-[#202321]/80 font-light leading-relaxed">
+                          {fmt.desc}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                          {fmt.features.map((feature) => (
+                            <span
+                              key={feature}
+                              className="px-2.5 py-1 rounded-md bg-white border border-[#E5D8C5] text-[11px] text-[#172B3A] font-mono"
+                            >
+                              {feature}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ── NORTH INDIA VISION (HORIZONTAL BASELINE PILLARS) ── */}
+      <section className="py-12 sm:py-16 px-6 sm:px-10 lg:px-16 text-left">
+        <div className="max-w-7xl mx-auto space-y-10">
+          
+          <div className="space-y-5">
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#C86B4A] font-semibold flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C86B4A]" />
+              <span>NORTH INDIA VISION</span>
+            </span>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-baseline justify-between">
+              <div className="lg:col-span-7">
+                <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#172B3A] tracking-tight leading-tight">
+                  A Brighter Tomorrow, Together.
+                </h2>
+              </div>
+
+              {/* 4 Pillars along Connected Baseline */}
+              <div className="lg:col-span-5 flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-mono uppercase tracking-[0.18em] text-[#172B3A]/70">
+                {visionPillars.map((p, pIdx) => (
+                  <React.Fragment key={p}>
+                    <span className="font-semibold hover:text-[#C86B4A] transition-colors">
+                      {p}
+                    </span>
+                    {pIdx < visionPillars.length - 1 && (
+                      <span className="text-[#C86B4A]/60 font-light select-none">•</span>
+                    )}
+                  </React.Fragment>
                 ))}
               </div>
             </div>
 
-            {/* Architectural Specifications Strip */}
-            <div className="pt-6 border-t border-[#172B3A]/10 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex flex-wrap items-center gap-6">
-                <div>
-                  <span className="text-[10px] font-mono text-[#202321]/50 uppercase block">Daily Traffic Density</span>
-                  <span className="text-base sm:text-lg font-bold font-serif text-[#172B3A]">{currentChapter.metrics.density}</span>
-                </div>
-                <div className="h-8 w-px bg-[#172B3A]/10" />
-                <div>
-                  <span className="text-[10px] font-mono text-[#202321]/50 uppercase block">Typical Store Footprint</span>
-                  <span className="text-xs sm:text-sm font-mono font-bold text-[#C86B4A]">{currentChapter.metrics.footprint}</span>
-                </div>
-              </div>
-
-              <Link
-                to="/locations"
-                className="px-5 py-2.5 rounded-full bg-[#172B3A] text-white hover:bg-[#C86B4A] text-xs font-mono font-bold tracking-wider transition-all flex items-center gap-2 shadow-xs hover:scale-105 duration-200"
-              >
-                <MapPin className="w-3.5 h-3.5 text-[#C86B4A]" />
-                <span>Explore Interactive Map</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Column: Architectural Photographic Viewport */}
-          <div className="lg:col-span-5 relative min-h-[380px] lg:min-h-full overflow-hidden bg-[#172B3A] group">
-            <img
-              src={currentChapter.image}
-              alt={currentChapter.title}
-              className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#172B3A]/95 via-[#172B3A]/30 to-transparent pointer-events-none" />
-
-            {/* Glassmorphic Badge Overlay */}
-            <div className="absolute top-6 right-6 px-3.5 py-1.5 rounded-full bg-[#172B3A]/70 backdrop-blur-md border border-white/20 text-white text-xs font-mono">
-              <span className="text-[#C86B4A] mr-1.5">●</span>
-              <span>CHAPTER {currentChapter.num}</span>
-            </div>
-
-            <div className="absolute bottom-8 left-8 right-8 text-white text-left space-y-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#C86B4A] block">
-                Signature Architectural Offering
-              </span>
-              <h4 className="font-serif text-2xl font-bold text-white leading-tight">
-                {currentChapter.title}
-              </h4>
-              <p className="text-xs font-mono text-[#E5D8C5]/90 pt-1 leading-relaxed">
-                {currentChapter.metrics.signature}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* 3 Overview Quick-Switch Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-          {chapters.map((ch) => {
-            const isSelected = activeChapter === ch.id;
-            return (
-              <div
-                key={ch.id}
-                onMouseEnter={() => setActiveChapter(ch.id)}
-                onClick={() => setActiveChapter(ch.id)}
-                className={'card-pop p-5 rounded-2xl border cursor-pointer flex flex-col justify-between gap-3 ' +
-                  (isSelected
-                    ? 'bg-[#172B3A] text-white border-[#172B3A] shadow-lg -translate-y-1'
-                    : 'bg-white border-[#E5D8C5] text-[#172B3A] hover:bg-white/90 hover:border-[#C86B4A]/50')}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-bold text-[#C86B4A]">
-                    CHAPTER {ch.num}
-                  </span>
-                  <span className={'text-[10px] font-mono uppercase px-2 py-0.5 rounded-full ' + 
-                    (isSelected ? 'bg-white/15 text-[#E5D8C5]' : 'bg-[#172B3A]/5 text-[#172B3A]')}>
-                    {ch.period}
-                  </span>
-                </div>
-
-                <div>
-                  <h4 className="font-serif text-lg font-bold leading-tight mb-1">{ch.title}</h4>
-                  <p className={'text-xs font-light line-clamp-2 ' + (isSelected ? 'text-[#E5D8C5]/80' : 'text-[#202321]/70')}>
-                    {ch.corridor}
-                  </p>
-                </div>
-
-                <div className={'pt-2 border-t flex items-center justify-between text-[11px] font-mono ' + 
-                  (isSelected ? 'border-white/15 text-[#C86B4A]' : 'border-[#E5D8C5] text-[#172B3A]')}>
-                  <span>{isSelected ? 'Active View' : 'Hover to Inspect'}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ── 04. INTERACTIVE HIGHWAY CORRIDOR PULSE (SLEEK SCHEMATIC ROAD MAP) ── */}
-      <section className="py-24 bg-[#172B3A] text-white text-left relative overflow-hidden border-b border-[#E5D8C5]/20">
-        <div className="absolute inset-0 bg-grain opacity-20 pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-12">
-          
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="max-w-2xl space-y-3">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#C86B4A]/30 text-xs font-mono tracking-widest text-[#C86B4A]">
-                <Milestone className="w-3.5 h-3.5" />
-                <span>NORTH INDIA CORRIDOR ARTERY</span>
-              </div>
-              <h2 className="font-serif text-4xl sm:text-6xl font-bold tracking-tight text-white">
-                The Highway Pulse
-              </h2>
-              <p className="text-base text-[#E5D8C5]/80 font-light leading-relaxed">
-                A connected line of hospitality. Inspect our key nodes across Punjab and Haryana. Hover over any waypoint to view site status.
-              </p>
-            </div>
-
-            <div className="text-right font-mono text-xs text-[#E5D8C5]/60 hidden md:block">
-              <span>UNBROKEN 24/7 NETWORK</span>
-              <div className="text-[#C86B4A] font-bold">CONNECTING COMMUTERS & TOWNSHIPS</div>
-            </div>
-          </div>
-
-          {/* Schematic Waypoint Track */}
-          <div className="relative pt-6 pb-2">
-            {/* Background connecting glowing rail line */}
-            <div className="hidden lg:block absolute top-[52px] left-8 right-8 h-1 bg-gradient-to-r from-[#C86B4A] via-[#E5D8C5]/40 to-[#C86B4A] rounded-full opacity-40 pointer-events-none" />
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 relative z-10">
-              {highwayMilestones.map((ms, idx) => {
-                const isHovered = hoveredNode === idx;
-                return (
-                  <div
-                    key={idx}
-                    onMouseEnter={() => setHoveredNode(idx)}
-                    onMouseLeave={() => setHoveredNode(null)}
-                    className={'card-pop p-5 rounded-2xl cursor-pointer flex flex-col justify-between gap-4 border ' +
-                      (isHovered 
-                        ? 'bg-white/15 border-[#C86B4A] shadow-xl -translate-y-2' 
-                        : 'bg-white/5 border-white/10 hover:border-white/25')}
-                  >
-                    {/* Node Dot / Marker */}
-                    <div className="flex items-center justify-between">
-                      <div className={'w-8 h-8 rounded-full flex items-center justify-center font-mono text-xs font-bold transition-colors ' +
-                        (isHovered ? 'bg-[#C86B4A] text-white shadow-md' : 'bg-white/10 text-[#E5D8C5]')}>
-                        0{idx + 1}
-                      </div>
-                      <span className="text-[9px] font-mono uppercase px-2 py-0.5 rounded-full bg-[#C86B4A]/20 text-[#C86B4A] border border-[#C86B4A]/30">
-                        {ms.badge}
-                      </span>
-                    </div>
-
-                    {/* Node Title & Region */}
-                    <div>
-                      <span className="text-[10px] font-mono text-[#E5D8C5]/60 uppercase block">
-                        {ms.region}
-                      </span>
-                      <h4 className="font-serif text-base font-bold text-white mt-1 leading-snug">
-                        {ms.name}
-                      </h4>
-                    </div>
-
-                    {/* Operational Details */}
-                    <div className="pt-3 border-t border-white/10 space-y-1">
-                      <span className="text-[11px] font-mono font-bold text-[#C86B4A] block">
-                        {ms.status}
-                      </span>
-                      <span className="text-[10px] font-mono text-[#E5D8C5]/70 block leading-tight">
-                        {ms.specs}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 05. THE 6 LIVING RETAIL FORMATS (HOVER REVEAL GALLERY) ── */}
-      <section className="py-24 max-w-7xl mx-auto px-6 text-left border-b border-[#E5D8C5]">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-16">
-          <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C86B4A] font-bold">
-              <Layers className="w-3.5 h-3.5" />
-              <span>03 / ARCHITECTURAL ARCHETYPES</span>
-            </div>
-            <h2 className="font-serif text-4xl sm:text-6xl font-bold tracking-tight text-[#172B3A] leading-tight">
-              {EXPANSION.archetypes.title}
-            </h2>
-            <p className="text-base sm:text-lg text-[#202321]/75 font-light leading-relaxed">
-              {EXPANSION.archetypes.subtitle}
+            {/* Approved PDF Vision Statement */}
+            <p className="text-sm sm:text-base text-[#202321]/80 font-light leading-relaxed max-w-3xl pt-1">
+              Our vision is to build a trusted and loved convenience brand across North India — delivering everyday essentials, fresh food and welcoming spaces, everywhere people go.
             </p>
           </div>
 
-          <div className="text-xs font-mono text-[#202321]/60 flex items-center gap-2">
-            <Eye className="w-4 h-4 text-[#C86B4A]" />
-            <span>Hover over any format card to view operational parameters</span>
-          </div>
-        </div>
-
-        {/* 6 Luxury Architectural Cards with Hover Reveal */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {archetypeDetails.map((arch, idx) => {
-            const Icon = arch.icon;
-            return (
-              <div
-                key={arch.id}
-                className="card-pop group rounded-[30px] bg-white border border-[#E5D8C5] shadow-xs overflow-hidden flex flex-col justify-between"
-              >
-                {/* Photo Header */}
-                <div className="relative aspect-[16/9] overflow-hidden bg-[#172B3A]">
-                  <img
-                    src={arch.image}
-                    alt={arch.title}
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#172B3A]/85 via-transparent to-transparent pointer-events-none" />
-                  
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 rounded-full bg-white/90 text-[#172B3A] font-mono text-[10px] font-bold tracking-wider uppercase backdrop-blur-xs">
-                      FORMAT 0{idx + 1}
-                    </span>
-                  </div>
-
-                  <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
-                    <span className="font-mono text-xs text-[#C86B4A] font-bold">
-                      {arch.footprint}
-                    </span>
-                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
-                      <Icon className="w-4 h-4" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Body Content */}
-                <div className="p-7 flex-1 flex flex-col justify-between space-y-6">
-                  <div className="space-y-3">
-                    <h3 className="font-serif text-2xl font-bold text-[#172B3A] group-hover:text-[#C86B4A] transition-colors">
-                      {arch.title}
-                    </h3>
-                    <p className="text-sm text-[#202321]/80 font-light leading-relaxed">
-                      {arch.description}
-                    </p>
-                  </div>
-
-                  {/* Hover-Revealed Deep Specs Drawer */}
-                  <div className="pt-4 border-t border-[#172B3A]/10 space-y-2 text-xs font-mono">
-                    <div className="text-[#202321]/60">
-                      <span className="font-bold text-[#172B3A] block">Target Audience:</span>
-                      <span>{arch.target}</span>
-                    </div>
-                    <div className="text-[#202321]/60 pt-1">
-                      <span className="font-bold text-[#C86B4A] block">Signature Amenity:</span>
-                      <span>{arch.feature}</span>
-                    </div>
-                  </div>
-
-                  {/* Footer Tag */}
-                  <div className="pt-3 border-t border-[#172B3A]/10 flex items-center justify-between text-[11px] font-mono text-[#172B3A] font-bold">
-                    <span>24/7 OPERATIONAL STANDARD</span>
-                    <CheckCircle2 className="w-4 h-4 text-[#C86B4A]" />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ── 06. HARHITH + VITA SOVEREIGN ALLIANCE SHOWCASE ── */}
-      <section className="py-24 bg-[#172B3A] text-white text-left relative overflow-hidden">
-        <div className="absolute inset-0 bg-grain opacity-25 pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          
-          {/* Official Dual Partner Seals Banner */}
-          <div className="mb-12 inline-flex flex-wrap items-center gap-4 sm:gap-6 p-4 sm:p-5 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl">
-            <div className="flex items-center gap-3">
-              <div className="bg-white p-2 rounded-2xl shadow-md">
-                <img src="/assets/images/harhith-logo.jpg" alt="HarHith Store" className="h-11 sm:h-14 w-auto object-contain rounded-lg" />
-              </div>
-              <span className="text-white/40 text-xl font-light">×</span>
-              <div className="bg-white p-2 rounded-2xl shadow-md">
-                <img src="/assets/images/vita-logo.jpg" alt="Vita" className="h-11 sm:h-14 w-auto object-contain rounded-lg" />
-              </div>
-            </div>
-            <div className="h-10 w-px bg-white/20 hidden sm:block" />
-            <div className="text-left">
-              <span className="text-xs font-mono uppercase tracking-widest text-[#C86B4A] font-bold block">
-                Official State Government Alliance
-              </span>
-              <span className="text-sm font-serif font-bold text-white block">
-                Haryana Agro Industries Corp. & Dairy Development Federation
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            {/* Left Narrative Column */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#C86B4A]/30 text-xs font-mono tracking-widest text-[#C86B4A]">
-                <Handshake className="w-3.5 h-3.5" />
-                <span>STATE PUBLIC-PRIVATE ALLIANCE</span>
-              </div>
-
-              <h2 className="font-serif text-4xl sm:text-6xl font-bold leading-tight text-white">
-                {EXPANSION.collaboration.title}
-              </h2>
-
-              <p className="font-serif text-2xl text-[#C86B4A] italic">
-                "{EXPANSION.collaboration.subtitle}"
-              </p>
-
-              <p className="text-base text-[#E5D8C5] leading-relaxed font-light">
-                {EXPANSION.collaboration.narrative}
-              </p>
-
-              <p className="text-sm text-[#E5D8C5]/80 leading-relaxed font-light">
-                {EXPANSION.collaboration.vision}
-              </p>
-
-              {/* Official Legal Notice from PDF */}
-              <div className="pt-4 border-t border-white/15">
-                <span className="text-xs font-mono tracking-wider text-[#E5D8C5]/60 block italic">
-                  {EXPANSION.collaboration.legalNotice}
-                </span>
-              </div>
-            </div>
-
-            {/* Right Card Column: 3 Pillar Impact Box */}
-            <div className="lg:col-span-5">
-              <div className="p-8 sm:p-10 rounded-[32px] bg-white/5 border border-white/15 backdrop-blur-md space-y-6 shadow-2xl">
-                <div>
-                  <div className="flex items-center gap-3 bg-white p-2 rounded-xl mb-4 shadow-sm w-fit">
-                    <img src="/assets/images/harhith-logo.jpg" alt="HarHith" className="h-7 w-auto object-contain rounded" />
-                    <div className="h-6 w-px bg-gray-200" />
-                    <img src="/assets/images/vita-logo.jpg" alt="Vita" className="h-7 w-auto object-contain rounded" />
-                  </div>
-                  <span className="text-xs font-mono uppercase tracking-widest text-[#C86B4A] block mb-1">
-                    Collaborative Impact
-                  </span>
-                  <h3 className="font-serif text-2xl font-bold text-white">
-                    "{EXPANSION.collaboration.banner}"
-                  </h3>
-                </div>
-
-                <div className="space-y-4 pt-2 text-xs font-mono text-[#E5D8C5]">
-                  <div className="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-[#C86B4A] shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-white block font-bold mb-0.5">State-Wide Highway Accessibility</strong>
-                      <span className="text-[#E5D8C5]/75">Deploying modern 24/7 retail points across Haryana\'s major highway nodes.</span>
-                    </div>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-[#C86B4A] shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-white block font-bold mb-0.5">Fresh Dairy Cold-Chain Integration</strong>
-                      <span className="text-[#E5D8C5]/75">Direct daily sourcing with Vita ensuring pure cooperative milk & dairy.</span>
-                    </div>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-[#C86B4A] shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-white block font-bold mb-0.5">Community Economic Empowerment</strong>
-                      <span className="text-[#E5D8C5]/75">Supporting regional enterprise, local farmers, and modern employment.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-white/15 flex items-center justify-between">
-                  <Link
-                    to="/partner"
-                    data-cursor="PARTNER"
-                    className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#C86B4A] hover:text-white transition-colors"
-                  >
-                    <span>Inspect Commercial Formats</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                  <span className="text-[10px] font-mono text-[#E5D8C5]/50">HARYANA GOVT PARTNERSHIP</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ── 07. EXPANSION INQUIRY CALL TO ACTION ── */}
-      <section className="py-20 bg-[#F7F4ED] text-[#202321] text-center px-6 border-t border-[#E5D8C5]">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#C86B4A] font-bold block">
-            Acquisitions & Real Estate
-          </span>
-          <h3 className="font-serif text-3xl sm:text-5xl font-bold text-[#172B3A]">
-            Have a Prime Highway or Township Site?
-          </h3>
-          <p className="text-sm sm:text-base text-[#202321]/75 max-w-xl mx-auto font-light leading-relaxed">
-            We are actively evaluating highway parcels, fuel station co-locations, and retail ground floors across Haryana and Punjab.
-          </p>
-          <div className="pt-4 flex flex-wrap justify-center gap-4">
+          {/* Bottom Transition Link */}
+          <div className="pt-6 border-t border-[#E5D8C5] flex items-center justify-end text-xs font-mono">
             <Link
               to="/partner"
-              className="px-8 py-3.5 rounded-full bg-[#172B3A] text-white font-bold text-xs sm:text-sm tracking-wider hover:bg-[#C86B4A] transition-all flex items-center gap-2 shadow-lg hover:scale-105 duration-200"
+              className="tracking-[0.2em] uppercase text-[11px] text-[#C86B4A] hover:text-[#172B3A] font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
-              <Briefcase className="w-4 h-4 text-[#C86B4A]" />
-              <span>Explore 4 Partnership Tracks</span>
-            </Link>
-
-            <Link
-              to="/contact"
-              className="px-8 py-3.5 rounded-full bg-white border border-[#E5D8C5] text-[#172B3A] font-bold text-xs sm:text-sm tracking-wider hover:bg-[#E5D8C5]/50 transition-all flex items-center gap-2 shadow-xs hover:scale-105 duration-200"
-            >
-              <span>Submit Property Proposal</span>
-              <ArrowRight className="w-4 h-4 text-[#C86B4A]" />
+              <span>ONWARD TO A BRIGHTER TOMORROW</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
+
         </div>
       </section>
 
