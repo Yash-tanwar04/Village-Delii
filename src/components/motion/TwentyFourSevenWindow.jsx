@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Moon, Sun, Sunrise, Sunset, Sparkles } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Sun3D } from '../3d/Sun3D';
+import { Moon3D } from '../3d/Moon3D';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -203,12 +205,12 @@ export function TwentyFourSevenWindow() {
   // Sun and Moon positions along parabolic celestial arc
   const sunX = 15 + scrollProgress * 72;
   const sunY = 72 - Math.sin(Math.PI * Math.min(1, scrollProgress * 1.35)) * 52;
-  const isSunVisible = scrollProgress < 0.78;
+  const sunOpacity = Math.max(0, Math.min(1, (0.76 - scrollProgress) / 0.12));
 
   const moonProg = Math.max(0, (scrollProgress - 0.52) / 0.48);
   const moonX = 25 + moonProg * 45;
   const moonY = 76 - Math.sin(Math.PI * moonProg) * 54;
-  const isMoonVisible = scrollProgress > 0.52;
+  const moonOpacity = Math.max(0, Math.min(1, (scrollProgress - 0.52) / 0.14));
 
   return (
     <section
@@ -218,7 +220,7 @@ export function TwentyFourSevenWindow() {
         backgroundColor: dynamicBg,
         height: 'calc(100vh - var(--navbar-height, 72px))',
       }}
-      className="relative w-full min-h-[580px] flex flex-col justify-between py-5 sm:py-6 px-6 sm:px-12 overflow-hidden select-none"
+      className="relative w-full min-h-[520px] sm:min-h-[580px] flex flex-col justify-between py-3 sm:py-5 px-3.5 sm:px-12 overflow-hidden select-none"
     >
       {/* ── NIGHT SKY TWINKLING STARS (Confined strictly to the top header region) ── */}
       <div
@@ -246,33 +248,33 @@ export function TwentyFourSevenWindow() {
 
       {/* ── TOP HEADER WITH TIME TRACKER ── */}
       <div
-        className="relative z-10 max-w-7xl mx-auto w-full flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b text-left transition-colors duration-300"
+        className="relative z-10 max-w-7xl mx-auto w-full flex items-center sm:items-end justify-between gap-3 pb-2.5 sm:pb-3 border-b text-left transition-colors duration-300"
         style={{ borderColor: isDaytime ? 'rgba(23,43,58,0.15)' : 'rgba(255,255,255,0.18)' }}
       >
-        <div className="space-y-1">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#C86B4A] font-semibold block">
+        <div className="space-y-0.5 sm:space-y-1">
+          <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-[#C86B4A] font-semibold block">
             ALWAYS OPEN · ALWAYS READY
           </span>
           <h2
-            className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold transition-colors duration-200"
+            className="font-serif text-xl sm:text-3xl lg:text-4xl font-bold transition-colors duration-200 leading-tight"
             style={{ color: dynamicTextColor }}
           >
             24/7. Day or Night. We’re Here.
           </h2>
           <p
-            className="text-xs sm:text-sm font-light transition-colors duration-200 opacity-75"
+            className="text-xs font-light transition-colors duration-200 opacity-75 hidden sm:block"
             style={{ color: dynamicTextColor }}
           >
             Starting your day · Grabbing a quick meal · Picking up groceries · Late-night stops.
           </p>
         </div>
 
-        <div className="flex items-center gap-3 text-xs font-mono">
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#172B3A] border border-white/20 shadow-md backdrop-blur-md text-white">
-            <span className="w-2 h-2 rounded-full bg-[#C86B4A] animate-pulse" />
+        <div className="flex items-center gap-2 text-xs font-mono shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-[#172B3A] border border-white/20 shadow-md backdrop-blur-md text-white text-[11px] sm:text-xs">
+            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#C86B4A] animate-pulse" />
             <span className="font-bold text-[#F5B862]">{current.time}</span>
-            <span className="text-white/40">•</span>
-            <span className="uppercase text-[#E5D8C5] tracking-wider">{current.period}</span>
+            <span className="text-white/40 hidden sm:inline">•</span>
+            <span className="uppercase text-[#E5D8C5] tracking-wider hidden sm:inline">{current.period}</span>
           </div>
         </div>
       </div>
@@ -280,7 +282,7 @@ export function TwentyFourSevenWindow() {
       {/* ── CELESTIAL SKY DOME (PINNED IN VIEW WHILE SUN & MOON MOVE) ── */}
       <div
         className={
-          'relative z-10 max-w-7xl mx-auto w-full flex-1 my-3 aspect-[16/8] sm:aspect-[21/9] rounded-[28px] overflow-hidden border shadow-xl p-6 sm:p-8 flex flex-col justify-between bg-black/40 backdrop-blur-md transition-colors duration-500 ' +
+          'relative z-10 max-w-7xl mx-auto w-full flex-1 my-2 sm:my-3 min-h-[220px] sm:min-h-[260px] rounded-2xl sm:rounded-[28px] overflow-hidden border shadow-xl p-4 sm:p-7 flex flex-col justify-between bg-black/40 backdrop-blur-md transition-colors duration-500 ' +
           (isDaytime ? 'border-[#172B3A]/15' : 'border-white/15')
         }
       >
@@ -302,72 +304,89 @@ export function TwentyFourSevenWindow() {
           <line x1="0" y1="360" x2="1000" y2="360" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
         </svg>
 
-        {/* Dynamic Sun */}
+        {/* Real 3D Celestial Sun */}
         <div
-          className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-200"
+          className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-200 z-10"
           style={{
             left: sunX + '%',
             top: sunY + '%',
-            opacity: isSunVisible ? 1 : 0,
-            transition: 'opacity 0.4s ease',
+            opacity: sunOpacity,
+            visibility: sunOpacity > 0.01 ? 'visible' : 'hidden',
           }}
         >
-          <div className="relative flex items-center justify-center">
-            <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-amber-400/25 blur-xl animate-pulse" />
-            <div className="absolute w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-200 shadow-[0_0_40px_rgba(251,191,36,0.8)] border border-yellow-100 flex items-center justify-center">
-              <Sun className="w-5 h-5 sm:w-7 sm:h-7 text-amber-900/80" />
-            </div>
-          </div>
+          <Sun3D />
         </div>
 
-        {/* Dynamic Moon */}
+        {/* Real 3D Celestial Moon */}
         <div
-          className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-200"
+          className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-200 z-10"
           style={{
             left: moonX + '%',
             top: moonY + '%',
-            opacity: isMoonVisible ? 1 : 0,
-            transition: 'opacity 0.4s ease',
+            opacity: moonOpacity,
+            visibility: moonOpacity > 0.01 ? 'visible' : 'hidden',
           }}
         >
-          <div className="relative flex items-center justify-center">
-            <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-cyan-300/20 blur-xl animate-pulse" />
-            <div className="absolute w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-gradient-to-tr from-slate-200 to-white shadow-[0_0_35px_rgba(255,255,255,0.85)] border border-white flex items-center justify-center">
-              <Moon className="w-5 h-5 sm:w-7 sm:h-7 text-slate-800" />
-            </div>
-          </div>
+          <Moon3D />
         </div>
 
         {/* Top subtle indicator inside Dome */}
         <div className="relative z-20 flex items-center justify-between text-xs font-mono">
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/15 text-[#F5B862]">
-            <CurrentIcon className="w-3.5 h-3.5" />
-            <span className="text-[10px] uppercase tracking-widest font-semibold">
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/15 text-[#F5B862]">
+            <CurrentIcon className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+            <span className="text-[9px] sm:text-[10px] uppercase tracking-widest font-semibold">
               {current.period}
             </span>
           </div>
 
-          <div className="text-[11px] font-mono text-white/70 bg-black/40 px-3 py-1 rounded-full border border-white/10">
-            <span>Scroll through the 24 hours</span>
+          <div className="text-[10px] sm:text-[11px] font-mono text-white/70 bg-black/40 px-2.5 sm:px-3 py-1 rounded-full border border-white/10">
+            <span>Scroll 24 hrs</span>
           </div>
         </div>
 
-        {/* Bottom Narrative Message (Direct from PDF) */}
-        <div className="relative z-20 max-w-xl text-left space-y-1.5 bg-black/55 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/10">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-[#F5B862] font-semibold block">
+        {/* Bottom Narrative Message */}
+        <div className="relative z-20 max-w-lg text-left space-y-1 bg-black/60 backdrop-blur-md p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-white/10">
+          <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-[#F5B862] font-semibold block">
             {current.period} · {current.time}
           </span>
-          <h3 className="font-serif text-lg sm:text-2xl font-bold text-white leading-tight">
+          <h3 className="font-serif text-base sm:text-xl font-bold text-white leading-tight">
             {current.headline}
           </h3>
-          <p className="text-xs sm:text-sm text-[#E5D8C5]/90 font-light leading-relaxed">
+          <p className="text-[11px] sm:text-xs text-[#E5D8C5]/90 font-light leading-relaxed line-clamp-2 sm:line-clamp-none">
             {current.message}
           </p>
         </div>
       </div>
 
       {/* ── BOTTOM TIME SCRUBBER TILES ── */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-2 md:grid-cols-4 gap-2.5 text-left">
+      {/* Mobile: Sleek 4-phase horizontal timeline pills */}
+      <div className="md:hidden relative z-10 w-full flex items-center justify-between gap-1.5 pt-0.5">
+        {PHASES.map((p, idx) => {
+          const isActive = activePhaseIndex === idx;
+          const Icon = p.icon;
+          return (
+            <div
+              key={p.id}
+              className={
+                'flex-1 py-1.5 px-1.5 rounded-lg text-center transition-all duration-300 border flex items-center justify-center gap-1 ' +
+                (isActive
+                  ? 'bg-[#172B3A] border-[#C86B4A] text-white shadow-xs'
+                  : isDaytime
+                    ? 'bg-white/80 border-[#172B3A]/10 text-[#172B3A]/70'
+                    : 'bg-black/35 border-white/15 text-white/60')
+              }
+            >
+              <Icon className={'w-2.5 h-2.5 ' + (isActive ? 'text-[#F5B862]' : 'opacity-60')} />
+              <span className="text-[9px] font-mono font-bold leading-none">
+                {p.time.replace(':00', '').replace(':30', '')}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Desktop: Full 4-column rich tiles */}
+      <div className="hidden md:grid relative z-10 max-w-7xl mx-auto w-full grid-cols-4 gap-2.5 text-left">
         {PHASES.map((p, idx) => {
           const Icon = p.icon;
           const isActive = activePhaseIndex === idx;

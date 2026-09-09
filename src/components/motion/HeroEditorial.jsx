@@ -139,37 +139,75 @@ export function HeroEditorial() {
         });
       }
 
-      // 3. Scroll Parallax: STRICTLY ZERO OPACITY FADE
-      // User directive: "it should not fade on scroll the text can animate but not fade"
+      // 3. Scroll Parallax: Multi-Plane Floating Dispersal
+      // STRICTLY ZERO OPACITY FADE (User directive: "it should not fade on scroll the text can animate but not fade")
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
           start: 'top top',
           end: 'bottom top',
-          scrub: 0.4,
+          scrub: 0.6,
         },
       });
 
       if (headlineRef.current) {
-        scrollTl.to(headlineRef.current, { y: -50, ease: 'none' }, 0);
+        scrollTl.to(headlineRef.current, { y: -60, ease: 'none' }, 0);
       }
       if (croissantGroupRef.current) {
-        scrollTl.to(croissantGroupRef.current, { y: -80, rotate: -4, ease: 'none' }, 0);
+        scrollTl.to(
+          croissantGroupRef.current,
+          { y: -140, x: -50, rotate: -12, scale: 1.05, ease: 'none' },
+          0
+        );
       }
       if (orangeLeftRef.current) {
-        scrollTl.to(orangeLeftRef.current, { y: -50, rotate: 4, ease: 'none' }, 0);
+        scrollTl.to(
+          orangeLeftRef.current,
+          { y: -75, x: -60, rotate: 16, ease: 'none' },
+          0
+        );
+      }
+      if (bagRef.current) {
+        scrollTl.to(
+          bagRef.current,
+          { y: 110, x: -30, rotate: -4, ease: 'none' },
+          0
+        );
       }
       if (orangeRightRef.current) {
-        scrollTl.to(orangeRightRef.current, { y: -65, rotate: -4, ease: 'none' }, 0);
+        scrollTl.to(
+          orangeRightRef.current,
+          { y: -130, x: 45, rotate: -14, scale: 1.04, ease: 'none' },
+          0
+        );
       }
       if (milkRef.current) {
-        scrollTl.to(milkRef.current, { y: 35, ease: 'none' }, 0);
+        scrollTl.to(
+          milkRef.current,
+          { y: 95, x: 35, rotate: 12, ease: 'none' },
+          0
+        );
       }
       if (tomatoesRef.current) {
-        scrollTl.to(tomatoesRef.current, { y: 30, ease: 'none' }, 0);
+        scrollTl.to(
+          tomatoesRef.current,
+          { y: 105, x: 40, rotate: 8, ease: 'none' },
+          0
+        );
       }
-      if (leaf1Ref.current && leaf2Ref.current) {
-        scrollTl.to([leaf1Ref.current, leaf2Ref.current], { y: -90, ease: 'none' }, 0);
+      if (leaf1Ref.current) {
+        scrollTl.to(
+          leaf1Ref.current,
+          { y: -160, x: 50, rotate: 35, ease: 'none' },
+          0
+        );
+      }
+      if (leaf2Ref.current) {
+        scrollTl.to(
+          leaf2Ref.current,
+          { y: -130, x: -35, rotate: -25, ease: 'none' },
+          0
+        );
       }
     }, container);
 
@@ -298,11 +336,11 @@ export function HeroEditorial() {
         }
       `}</style>
 
-      {/* ── 1. VECTOR TERRACOTTA CONNECTING MILESTONE ARC ── */}
+      {/* ── 1. VECTOR TERRACOTTA CONNECTING MILESTONE ARC (Desktop only) ── */}
       <svg
         viewBox="0 0 1440 900"
         fill="none"
-        className="absolute inset-0 w-full h-full pointer-events-none z-0"
+        className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-0"
         preserveAspectRatio="none"
       >
         <path
@@ -318,12 +356,12 @@ export function HeroEditorial() {
         <circle cx="1025" cy="475" r="2.5" fill="#F7F4ED" />
       </svg>
 
-      {/* ── 2. INDIVIDUAL 3D STILL-LIFE STUDIO FOOD ELEMENTS ── */}
+      {/* ── 2. INDIVIDUAL 3D STILL-LIFE STUDIO FOOD ELEMENTS (Desktop only to keep mobile pristine) ── */}
 
       {/* Croissant + Crumbs + Roasted Coffee Beans Group */}
       <div
         ref={croissantGroupRef}
-        className="absolute z-10 w-[170px] sm:w-[230px] md:w-[280px] lg:w-[330px] pointer-events-none select-none filter drop-shadow-[0_18px_26px_rgba(23,43,58,0.11)] will-change-transform"
+        className="hidden md:block absolute z-10 w-[230px] md:w-[280px] lg:w-[330px] pointer-events-none select-none filter drop-shadow-[0_18px_26px_rgba(23,43,58,0.11)] will-change-transform"
         style={{ top: '18%', left: '11%' }}
       >
         <img
@@ -337,7 +375,7 @@ export function HeroEditorial() {
       {/* Orange Left (Whole sunkist citrus with stem & leaf) */}
       <div
         ref={orangeLeftRef}
-        className="absolute z-10 w-[120px] sm:w-[160px] md:w-[200px] lg:w-[230px] pointer-events-none select-none filter drop-shadow-[0_20px_30px_rgba(23,43,58,0.12)] will-change-transform"
+        className="hidden md:block absolute z-10 w-[160px] md:w-[200px] lg:w-[230px] pointer-events-none select-none filter drop-shadow-[0_20px_30px_rgba(23,43,58,0.12)] will-change-transform"
         style={{ top: '34%', left: '-1%' }}
       >
         <img
@@ -351,7 +389,7 @@ export function HeroEditorial() {
       {/* Kraft Paper Grocery Bag (Village Deli) */}
       <div
         ref={bagRef}
-        className="absolute z-10 w-[190px] sm:w-[260px] md:w-[330px] lg:w-[380px] pointer-events-none select-none filter drop-shadow-[0_25px_45px_rgba(23,43,58,0.14)] will-change-transform"
+        className="hidden md:block absolute z-10 w-[260px] md:w-[330px] lg:w-[380px] pointer-events-none select-none filter drop-shadow-[0_25px_45px_rgba(23,43,58,0.14)] will-change-transform"
         style={{ bottom: '-10px', left: '-10px' }}
       >
         <img
@@ -365,7 +403,7 @@ export function HeroEditorial() {
       {/* Orange Top Right (Whole sunkist orange with green leaves) */}
       <div
         ref={orangeRightRef}
-        className="absolute z-10 w-[125px] sm:w-[170px] md:w-[210px] lg:w-[240px] pointer-events-none select-none filter drop-shadow-[0_20px_30px_rgba(23,43,58,0.12)] will-change-transform"
+        className="hidden md:block absolute z-10 w-[170px] md:w-[210px] lg:w-[240px] pointer-events-none select-none filter drop-shadow-[0_20px_30px_rgba(23,43,58,0.12)] will-change-transform"
         style={{ top: '10%', right: '19%' }}
       >
         <img
@@ -379,7 +417,7 @@ export function HeroEditorial() {
       {/* Milk Bottle (Cold-chain farm milk in vintage glass bottle) */}
       <div
         ref={milkRef}
-        className="absolute z-10 w-[110px] sm:w-[150px] md:w-[185px] lg:w-[210px] pointer-events-none select-none filter drop-shadow-[0_20px_30px_rgba(23,43,58,0.10)] will-change-transform"
+        className="hidden md:block absolute z-10 w-[150px] md:w-[185px] lg:w-[210px] pointer-events-none select-none filter drop-shadow-[0_20px_30px_rgba(23,43,58,0.10)] will-change-transform"
         style={{ top: '35%', right: '4.5%' }}
       >
         <img
@@ -393,7 +431,7 @@ export function HeroEditorial() {
       {/* Vine Tomatoes (Ripe red tomatoes on green vine) */}
       <div
         ref={tomatoesRef}
-        className="absolute z-10 w-[130px] sm:w-[175px] md:w-[215px] lg:w-[245px] pointer-events-none select-none filter drop-shadow-[0_18px_26px_rgba(23,43,58,0.13)] will-change-transform"
+        className="hidden md:block absolute z-10 w-[175px] md:w-[215px] lg:w-[245px] pointer-events-none select-none filter drop-shadow-[0_18px_26px_rgba(23,43,58,0.13)] will-change-transform"
         style={{ top: '53%', right: '13%' }}
       >
         <img
@@ -407,7 +445,7 @@ export function HeroEditorial() {
       {/* Floating Citrus Leaves */}
       <div
         ref={leaf1Ref}
-        className="hero-leaf-depth absolute z-10 w-[30px] sm:w-[42px] md:w-[50px] pointer-events-none select-none filter drop-shadow-[0_8px_14px_rgba(23,43,58,0.1)] will-change-transform"
+        className="hero-leaf-depth hidden md:block absolute z-10 w-[42px] md:w-[50px] pointer-events-none select-none filter drop-shadow-[0_8px_14px_rgba(23,43,58,0.1)] will-change-transform"
         style={{ top: '29%', right: '27%' }}
       >
         <img src="/assets/images/hero/items/leaf_top_retina.png" alt="Floating Leaf" className="w-full h-auto" />
@@ -415,42 +453,37 @@ export function HeroEditorial() {
 
       <div
         ref={leaf2Ref}
-        className="hero-leaf-depth absolute z-10 w-[34px] sm:w-[45px] md:w-[56px] pointer-events-none select-none filter drop-shadow-[0_10px_16px_rgba(23,43,58,0.1)] will-change-transform"
+        className="hero-leaf-depth hidden md:block absolute z-10 w-[45px] md:w-[56px] pointer-events-none select-none filter drop-shadow-[0_10px_16px_rgba(23,43,58,0.1)] will-change-transform"
         style={{ top: '44%', right: '20%' }}
       >
         <img src="/assets/images/hero/items/leaf_mid_retina.png" alt="Floating Leaf" className="w-full h-auto transform -rotate-15" />
       </div>
 
       {/* ── 3. TOP UTILITY ROW: ACTIVE STATUS & LIVE IST CLOCK ── */}
-      <div className="hero-mount-elem relative z-30 max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-[#172B3A]/10 text-xs font-mono text-[#172B3A]">
+      <div className="hero-mount-elem relative z-30 max-w-7xl mx-auto w-full flex items-center justify-between gap-2 pb-2 border-b border-[#172B3A]/10 text-xs font-mono text-[#172B3A]">
         {/* Left: Brand Network Status */}
-        <div className="flex items-center gap-2.5">
-          <span className="flex h-2.5 w-2.5 relative">
+        <div className="flex items-center gap-2">
+          <span className="flex h-2 w-2 relative">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C86B4A] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#C86B4A]"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#C86B4A]"></span>
           </span>
-          <span className="font-bold tracking-widest uppercase">VILLAGE DELI NETWORK</span>
+          <span className="font-bold tracking-wider uppercase text-[11px] sm:text-xs">VILLAGE DELI</span>
           <span className="text-[#C86B4A]">•</span>
-          <span className="text-[#202321]/70 hidden sm:inline">HARYANA 2026 DEPLOYMENT</span>
+          <span className="text-[#202321]/70 text-[10px] sm:text-xs">ALWAYS OPEN 24/7</span>
         </div>
 
-        {/* Right: Live IST Clock & Hub Tagline */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/85 border border-[#E5D8C5] shadow-xs">
-            <Clock className="w-3.5 h-3.5 text-[#C86B4A]" />
-            <span className="font-bold text-[#172B3A]">{timeStr || '05:45:00 pm'}</span>
-            <span className="text-[10px] text-[#202321]/60 font-semibold">IST</span>
-          </div>
-
-          <div className="hidden md:flex items-center gap-1.5 text-[#202321]/75">
-            <Compass className="w-3.5 h-3.5 text-[#C86B4A]" />
-            <span className="font-semibold">24/7 Gateway Hub ✦</span>
+        {/* Right: Live IST Clock */}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-white/85 border border-[#E5D8C5] shadow-xs text-[11px] sm:text-xs">
+            <Clock className="w-3 h-3 text-[#C86B4A]" />
+            <span className="font-bold text-[#172B3A]">{timeStr || '05:45 pm'}</span>
+            <span className="text-[9px] sm:text-[10px] text-[#202321]/60 font-semibold">IST</span>
           </div>
         </div>
       </div>
 
-      {/* ── 4. CORNER EDITORIAL BADGES (NATIVE VECTOR) ── */}
-      <div className="relative z-20 max-w-7xl mx-auto w-full flex items-start justify-between pointer-events-none">
+      {/* ── 4. CORNER EDITORIAL BADGES (Desktop only) ── */}
+      <div className="relative z-20 max-w-7xl mx-auto w-full hidden md:flex items-start justify-between pointer-events-none">
         {/* Top-Left: Fresh Things / Brighter People & 24/7 Badge */}
         <div className="hero-mount-elem flex flex-col items-start space-y-1 text-left pointer-events-auto">
           <div className="w-5 h-0.5 bg-[#C86B4A] mb-1" />

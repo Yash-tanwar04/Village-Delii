@@ -14,11 +14,22 @@ export function HomePage() {
           const el = document.getElementById('twenty-four-seven-window') || document.getElementById('twenty-four-seven');
           if (el) {
             const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--navbar-height')) || 72;
-            window.scrollTo({ top: el.offsetTop - navH, behavior: 'instant' });
+            const targetY = el.offsetTop - navH;
+            if (window.__lenis) {
+              window.__lenis.scrollTo(targetY, { immediate: true });
+            } else {
+              window.scrollTo({ top: targetY, behavior: 'instant' });
+            }
           }
         } else {
           const y = parseInt(scrollTarget, 10);
-          if (!isNaN(y)) window.scrollTo({ top: y, behavior: 'instant' });
+          if (!isNaN(y)) {
+            if (window.__lenis) {
+              window.__lenis.scrollTo(y, { immediate: true });
+            } else {
+              window.scrollTo({ top: y, behavior: 'instant' });
+            }
+          }
         }
       }, 400);
     }
